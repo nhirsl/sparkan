@@ -39,6 +39,8 @@ int main(int argc, char *argv[])
                 QStringLiteral("sparkan@googlegroups.com"));
     aboutData.addAuthor(i18n("Nemanja Hiršl"), i18n("Development Lead"), QStringLiteral("nemhirsl@gmail.com"),
                         QStringLiteral("http://alas.matf.bg.ac.rs/~mr97352/"), QStringLiteral("nhirsl"));
+    aboutData.addAuthor(i18n("Nenad Žikić"), i18n("Developer"), QStringLiteral("nenad.zikic@gmail.com"),
+                        QStringLiteral(""), QStringLiteral("nzikic"));
     KAboutData::setApplicationData(aboutData);
 
     QCommandLineParser parser;
