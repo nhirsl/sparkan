@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
                 // The bug report email address
                 // (bugsEmailAddress = QLatin1String("submit@bugs.kde.org")
                 QStringLiteral("sparkan@googlegroups.com"));
+    aboutData.addAuthor(i18n("Nebojsa Karan"), i18n("Developer"), QStringLiteral("nebojsakaran1011@gmail.com"),
+                        QStringLiteral(""), QStringLiteral("nebojsa1011"));
     aboutData.addAuthor(i18n("Nemanja Hiršl"), i18n("Development Lead"), QStringLiteral("nemhirsl@gmail.com"),
                         QStringLiteral("http://alas.matf.bg.ac.rs/~mr97352/"), QStringLiteral("nhirsl"));
     aboutData.addAuthor(i18n("Nenad Žikić"), i18n("Developer"), QStringLiteral("nenad.zikic@gmail.com"),
