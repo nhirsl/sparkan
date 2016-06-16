@@ -29,13 +29,15 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++1y -pedantic")
 
-set(sparkan_SRCS main.cpp mainwindow.cpp person.cpp cachedauthorization.cpp people.cpp)
+set(sparkan_SRCS main.cpp mainwindow.cpp person.cpp cachedauthorization.cpp people.cpp webauth.cpp)
 
 add_executable(sparkan ${sparkan_SRCS})
 
 target_link_libraries(sparkan
     Qt5Network
     Qt5::Widgets
+    Qt5WebKit
+    Qt5WebKitWidgets
     KF5::CoreAddons
     KF5::I18n
     KF5::XmlGui

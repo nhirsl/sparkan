@@ -12,9 +12,10 @@ namespace People {
         qWarning() << "get";
         QNetworkRequest *request = new QNetworkRequest(QUrl("https://api.ciscospark.com/v1/people/me"));
         CachedAuthorization *auth = new CachedAuthorization();
-        std::string bearer = "Bearer " + auth->get().toStdString();
+        std::string bearer = "Bearer "+ auth->get().toStdString();
         std::cout << (bearer);
         request->setRawHeader(QByteArray("Authorization"), QByteArray(bearer.c_str()));
+
         request->setRawHeader(QByteArray("Accept"), QByteArray("application/json"));
 
         QNetworkAccessManager *nm = new QNetworkAccessManager();
@@ -25,7 +26,7 @@ namespace People {
 
     void Me::finished(QNetworkReply *replay) {
         qWarning() << "finished";
-        qDebug() << replay->readAll();
+        qWarning() << replay->readAll();
 
     }
 
