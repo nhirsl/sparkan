@@ -9,7 +9,7 @@ class WebAuth : public QObject
 public slots:
     void on_ulrChanged(QUrl url);
     void on_loadStarted(void);
-    void on_loadFinished(bool ok);
+    void on_loadFinished(QNetworkReply* reply);
     void on_loadProgress(int progress);
     void on_linkClicked(QUrl url);
 
