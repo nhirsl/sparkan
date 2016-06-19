@@ -5,6 +5,10 @@ cmake_policy(SET CMP0063 NEW)
 set(QT_MIN_VERSION "5.3.0")
 set(KF5_MIN_VERSION "5.2.0")
 
+include_directories ("${PROJECT_SOURCE_DIR}/include")
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOUIC ON)
+
 find_package(ECM 1.0.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -29,7 +33,7 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++1y -pedantic")
 
-set(sparkan_SRCS main.cpp mainwindow.cpp person.cpp cachedauthorization.cpp people.cpp webauth.cpp)
+set(sparkan_SRCS main.cpp mainwindow.cpp person.cpp cachedauthorization.cpp people.cpp webauth.cpp authview.ui)
 
 add_executable(sparkan ${sparkan_SRCS})
 
