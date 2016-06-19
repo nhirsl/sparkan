@@ -10,12 +10,8 @@ class WebAuth : public QObject
 {
     Q_OBJECT
 public slots:
-    void on_ulrChanged(QUrl url);
-    void on_loadStarted(void);
-    void on_loadFinished(bool ok);
-    void on_loadProgress(int progress);
-    void on_linkClicked(QUrl url);
-    void nm_Finished(QNetworkReply *reply);
+    void nm_Token(QNetworkReply *reply);
+    void nm_Redirect(QNetworkReply *reply);
 
 public:
     WebAuth();
@@ -25,6 +21,7 @@ signals:
     void on_BareAuth(void);
 
 private:
+    QWidget *widget;
     QWebView *view;
     QWebPage *page;
     QWebFrame *frame;
