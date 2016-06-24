@@ -1,4 +1,10 @@
-project (sparkan)
+project (sparkan_cli)
+
+include_directories(include)
+
+file(GLOB sparkan_HEADER "include/*.h" "*.h")
+file(GLOB sparkan_SRCS "*cpp" "*.c" "src/*.cpp" "src/*.c")
+
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 cmake_policy(SET CMP0063 NEW)
@@ -29,13 +35,11 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     TextWidgets     # KTextEdit
 )
 
+
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++1y -pedantic")
-
-set(sparkan_SRCS main.cpp mainwindow.cpp person.cpp cachedauthorization.cpp people.cpp webauth.cpp authview.ui)
-
-add_executable(sparkan ${sparkan_SRCS})
+add_executable(sparkan ${sparkan_SRCS} ${sparkan_HEADER})
 
 target_link_libraries(sparkan
     Qt5Network

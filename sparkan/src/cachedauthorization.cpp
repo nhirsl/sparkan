@@ -1,4 +1,4 @@
-#include <cachedauthorization.h>
+#include "cachedauthorization.h"
 #include <QFileInfo>
 #include <QFile>
 #include <QDir>
@@ -19,7 +19,12 @@ QString CachedAuthorization::get()
     return auth;
 }
 
-void CachedAuthorization::write(QString)
+void CachedAuthorization::write(QString auth)
 {
 
+}
+
+void CachedAuthorization::set(QString auth)
+{
+    this->auth = auth;
 }

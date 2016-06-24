@@ -8,6 +8,7 @@ private:
     QString auth;
 public:
     QString get();
+    void set(QString auth);
     void write(QString auth);
 };
 

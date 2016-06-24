@@ -5,7 +5,7 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
-#include "ui_authview.h"
+
 
 class WebAuth : public QObject
 {
