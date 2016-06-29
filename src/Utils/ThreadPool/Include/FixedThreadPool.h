@@ -28,7 +28,6 @@ private:
     void WorkerFunction();
     void JoinThreads();
     
-    bool mClosed;
     size_t mNumberOfThreads;
     TaskBlockingQueueUPtr mTaskQueue;
     std::vector<std::thread> mThreads;

@@ -4,8 +4,7 @@
 
 FixedThreadPool::FixedThreadPool(size_t numberOfThreads, TaskBlockingQueueUPtr blockingQueue)
     : mNumberOfThreads(numberOfThreads)
-    , mTaskQueue(std::move(blockingQueue))
-    , mClosed(false) {
+    , mTaskQueue(std::move(blockingQueue)) {
 }
 
 FixedThreadPool::~FixedThreadPool() {
