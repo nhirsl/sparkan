@@ -2,6 +2,11 @@
 
 #include "FixedThreadPool.h"
 
+#include "BlockingQueueFactory.h"
+#include "BlockingQueue.h"
+
+using TaskBlockingQueueUPtr = std::unique_ptr<BlockingQueue<Task>>;
+
 ThreadPoolFactoryWPtr ThreadPoolFactory::instance;
 
 std::mutex ThreadPoolFactory::mutex;
@@ -17,6 +22,13 @@ ThreadPoolFactoryPtr ThreadPoolFactory::GetInstance() {
 }
 
 ThreadPoolUPtr ThreadPoolFactory::CreateFixedThreadPool(size_t numberOfThreads) {
-    FixedThreadPoolUPtr fixedThreadPool(new FixedThreadPool(numberOfThreads));
-    return std::move(fixedThreadPool);
+    BlockingQueueFactoryPtr blockingQueueFactory = BlockingQueueFactory::GetInstance();
+    if (blockingQueueFactory) {
+        TaskBlockingQueueUPtr blockingQueue = blockingQueueFactory->CreateInstance<Task>();
+        if (blockingQueue) {
+            FixedThreadPoolUPtr fixedThreadPool(new FixedThreadPool(numberOfThreads, std::move(blockingQueue)));
+            return std::move(fixedThreadPool);
+        }
+    }
+    return nullptr;
 }

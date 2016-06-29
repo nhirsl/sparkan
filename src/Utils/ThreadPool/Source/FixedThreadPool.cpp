@@ -1,85 +1,61 @@
 #include "FixedThreadPool.h"
 
-#include "WorkerTerminated.h"
+#include <algorithm>
 
-FixedThreadPool::FixedThreadPool(size_t numberOfThread)
-    : mNumberOfThreads(numberOfThread)
-    , mTerminated(false) {
+FixedThreadPool::FixedThreadPool(size_t numberOfThreads, TaskBlockingQueueUPtr blockingQueue)
+    : mNumberOfThreads(numberOfThreads)
+    , mTaskQueue(std::move(blockingQueue))
+    , mClosed(false) {
 }
 
 FixedThreadPool::~FixedThreadPool() {
-    Terminate();
-    
-    // Join threads from the pool
-    for(std::thread& t : mThreads) {
-        if (t.joinable()) {
-            t.join();
-        }
-    }
+    Close();
+    JoinThreads();
 }
 
 void FixedThreadPool::Start() {
     try {
-        for(unsigned int i = 0; mTerminated == false && i < mNumberOfThreads; i++) {
-            mThreads.push_back(std::thread(&FixedThreadPool::WorkerFunction, this));
+        for(unsigned int i = 0; mTaskQueue->IsClosed() == false && i < mNumberOfThreads; i++) {
+            mThreads.emplace_back(&FixedThreadPool::WorkerFunction, this);
         }
     } catch (...) {
-        Terminate();
+        Close();
         throw;
     }
 }
 
-void FixedThreadPool::Terminate() {
-    std::lock_guard<std::mutex> lock(mMutex);
-    mTerminated = true;
-    
-    // Wake up all threads waiting on mQueueIsNotEmpty
-    mQueueIsNotEmpty.notify_all();
+void FixedThreadPool::Close() {
+    if (mTaskQueue) {
+        mTaskQueue->Close();   
+    }
 }
 
 void FixedThreadPool::Enqueue(Task task) {
-    PushBack(std::move(task));
+    if (mTaskQueue) {
+        mTaskQueue->PushBack(task);
+    }
 }
 
 void FixedThreadPool::Urgent(Task task) {
-    PushFront(std::move(task));
+    if (mTaskQueue) {
+        mTaskQueue->PushFront(task);
+    }
 }
 
 void FixedThreadPool::WorkerFunction() {
-    try {
-        while(true) {
-            Task task = GetNext();
-            task();
+    Task task;
+    while(true) {
+        QueueOperationStatus queueOperationStatus = mTaskQueue->PopFront(&task);
+        if (queueOperationStatus == QueueOperationStatus::CLOSED) {
+            break;
         }
-    } catch (WorkerTerminated& workerTerminated) {
     }
 }
 
-void FixedThreadPool::PushBack(Task task) {
-    std::lock_guard<std::mutex> lock(mMutex);
-    if(mTerminated == false) {
-        mQueue.push_back(std::move(task));
-        mQueueIsNotEmpty.notify_all();
-    }
-}
-
-void FixedThreadPool::PushFront(Task task) {
-    std::lock_guard<std::mutex> lock(mMutex);
-    if(mTerminated == false) {
-        mQueue.push_front(std::move(task));
-        mQueueIsNotEmpty.notify_all();
-    }
-}
-
-Task FixedThreadPool::GetNext() {
-    std::unique_lock<std::mutex> lock(mMutex);
-    while(mTerminated == false && mQueue.size() == 0) {
-        mQueueIsNotEmpty.wait(lock);
-    }
-    if (mTerminated) {
-        throw WorkerTerminated();
-    }
-    std::function<void()> nextTask = mQueue.front();
-    mQueue.pop_front();
-    return std::move(nextTask);
+void FixedThreadPool::JoinThreads() {
+    std::for_each(mThreads.begin(), mThreads.end(), [](std::thread& t) {
+        if (t.joinable()) {
+            t.join();
+        }
+    });
 }

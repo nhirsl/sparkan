@@ -2,40 +2,34 @@
 
 #include "ThreadPool.h"
 
-#include <atomic>
-#include <mutex>
-#include <condition_variable>
-#include <thread>
 #include <vector>
-#include <deque>
+#include <memory>
+#include <thread>
+
+#include "BlockingQueue.h"
+
+using TaskBlockingQueueUPtr = std::unique_ptr<BlockingQueue<Task>>;
 
 class FixedThreadPool : public ThreadPool {
 public:
-    FixedThreadPool(size_t numberOfThread);
+    FixedThreadPool(size_t numberOfThreads, TaskBlockingQueueUPtr blockingQueue);
+    
     virtual ~FixedThreadPool();
 
     virtual void Start() override;
-    virtual void Terminate() override;
+    
+    virtual void Close() override;
     
     virtual void Enqueue(Task task) override;
+    
     virtual void Urgent(Task task) override;
     
 private:
     void WorkerFunction();
+    void JoinThreads();
     
-    void PushBack(Task task);
-    void PushFront(Task task);
-    Task GetNext();
-    
+    bool mClosed;
     size_t mNumberOfThreads;
-    
-    std::mutex mMutex;
-    
-    std::condition_variable mQueueIsNotEmpty;
-    
-    bool mTerminated;
-    
-    std::deque<Task> mQueue;
-    
+    TaskBlockingQueueUPtr mTaskQueue;
     std::vector<std::thread> mThreads;
 };
