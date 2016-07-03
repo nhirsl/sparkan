@@ -4,6 +4,7 @@ include_directories(include)
 
 file(GLOB sparkan_HEADER "include/*.h" "*.h")
 file(GLOB sparkan_SRCS "*cpp" "*.c" "src/*.cpp" "src/*.c")
+file(GLOB sparkan_RES "res/*qrc")
 
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
@@ -25,7 +26,9 @@ include(FeatureSummary)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS 
     Core    # QCommandLineParser, QStringLiteral
-    Widgets # QApplication 
+    Widgets # QApplication
+    Quick
+    Qml
 )
 
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
@@ -35,14 +38,17 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     TextWidgets     # KTextEdit
 )
 
+qt5_add_resources(RESOURCES ${sparkan_RES})
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++1y -pedantic")
-add_executable(sparkan ${sparkan_SRCS} ${sparkan_HEADER})
+add_executable(sparkan ${sparkan_SRCS} ${sparkan_HEADER} ${RESOURCES} authview.ui)
 
 target_link_libraries(sparkan
     Qt5Network
+    Qt5::Qml
+    Qt5::Quick
     Qt5::Widgets
     Qt5WebKit
     Qt5WebKitWidgets

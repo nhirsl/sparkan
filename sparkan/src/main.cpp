@@ -11,6 +11,8 @@
 #include "people.h"
 #include "webauth.h"
 #include <QtNetwork/QNetworkProxy>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
 static std::string clientSecret = "5a1b187745e79a6cb2fe6b005a3b3be16b633411374eacb84a38c3c4068fbf50";
 static std::string clientId = "Cf058c9b9c30412326fe40868e333796bfeae17fb58ef709de8a7e8c73850ceca";
@@ -26,6 +28,7 @@ void test()
 
 int main(int argc, char *argv[])
 {
+    /*
     QApplication app(argc, argv);
     KLocalizedString::setApplicationDomain("sparkan");
 
@@ -59,14 +62,14 @@ int main(int argc, char *argv[])
     KAboutData::setApplicationData(aboutData);
 
 
-    QNetworkProxy proxy;
+    /*QNetworkProxy proxy;
      proxy.setType(QNetworkProxy::Socks5Proxy);
      proxy.setType(QNetworkProxy::HttpProxy);
      proxy.setHostName("rsbeproxy01.endava.net");
      proxy.setPort(8080);
      QNetworkProxy::setApplicationProxy(proxy);
-
-
+*/
+/*
     QCommandLineParser parser;
     parser.addHelpOption();
     parser.addVersionOption();
@@ -75,10 +78,21 @@ int main(int argc, char *argv[])
     aboutData.processCommandLine(&parser);
 
     MainWindow* window = new MainWindow();
+    //window->setWindowIcon(QIcon(":/logo.png"));
+    window->setWindowIcon(QIcon("logo.png"));
     window->show();
+
 
     test();
 
+
+    return app.exec();
+    */
+
+    QGuiApplication app(argc, argv);
+
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.exec();
 }
