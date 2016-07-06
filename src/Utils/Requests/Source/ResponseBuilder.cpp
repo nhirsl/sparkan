@@ -13,8 +13,7 @@ namespace Http {
         , mContentBuffer(0)
         , mCurrentContentPosition(0)
         , mBufferCapacity(0)
-        , mBufferIncreaseRate(512)
-        , mHttpVersion("HTTP/1.1") {
+        , mBufferIncreaseRate(512) {
     }
 
     ResponseBuilder::~ResponseBuilder() {
