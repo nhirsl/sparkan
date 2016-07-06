@@ -3,16 +3,20 @@
 #include "GetRequest.h"
 #include "PostRequest.h"
 #include "DeleteRequest.h"
-
-#include "RequestPerformer.h"
+#include "IncommingTask.h"
 
 #include "StringUtils.h"
+#include "ThreadPoolFactory.h"
 
 #include <algorithm>
-#include <sstream>
 
 namespace Http {
     RequestsImpl::RequestsImpl() {
+        ThreadPoolFactoryPtr threadPoolFactory = ThreadPoolFactory::GetInstance();
+        if (threadPoolFactory) {
+            mIncommingTasks = threadPoolFactory->CreateFixedThreadPool();
+            mIncommingTasks->Start();
+        }
     }
     
     RequestsImpl::~RequestsImpl() {
@@ -28,7 +32,8 @@ namespace Http {
         getRequest->SetUrl(AddQueryStringToUrl(url, queryStringParams));
         getRequest->AddHeaders(headers);
         getRequest->OnResponse(responseHandler);
-        RequestPerformer::Perform(std::move(getRequest));
+        
+        mIncommingTasks->Enqueue(IncommingTaskPtr(new IncommingTask(std::move(getRequest))));
     }
     
     void RequestsImpl::Get(
@@ -56,7 +61,8 @@ namespace Http {
         postRequest->AddHeaders(headers);
         postRequest->SetContent(content);
         postRequest->OnResponse(responseHandler);
-        RequestPerformer::Perform(std::move(postRequest));
+        
+        mIncommingTasks->Enqueue(IncommingTaskPtr(new IncommingTask(std::move(postRequest))));
     }    
 
     void RequestsImpl::Post(const std::string& url, 
@@ -75,7 +81,8 @@ namespace Http {
         deleteRequest->SetUrl(url);
         deleteRequest->AddHeaders(headers);
         deleteRequest->OnResponse(responseHandler);
-        RequestPerformer::Perform(std::move(deleteRequest));
+        
+        mIncommingTasks->Enqueue(IncommingTaskPtr(new IncommingTask(std::move(deleteRequest))));
     }
     
     void RequestsImpl::Delete(

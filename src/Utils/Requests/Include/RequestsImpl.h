@@ -2,6 +2,8 @@
 
 #include "Requests.h"
 
+#include "ThreadPool.h"
+
 namespace Http {
     class RequestsImpl : public Requests {
     public:
@@ -39,5 +41,7 @@ namespace Http {
                             
     private:
         std::string AddQueryStringToUrl(const std::string& url, std::unordered_map<std::string, std::string> queryStringParams);
+        
+        ThreadPoolUPtr mIncommingTasks;
     };
 }

@@ -5,7 +5,7 @@
 #include "BlockingQueueFactory.h"
 #include "BlockingQueue.h"
 
-using TaskBlockingQueueUPtr = std::unique_ptr<BlockingQueue<Task>>;
+using TaskBlockingQueueUPtr = std::unique_ptr<BlockingQueue<TaskPtr>>;
 
 ThreadPoolFactoryWPtr ThreadPoolFactory::instance;
 
@@ -24,7 +24,7 @@ ThreadPoolFactoryPtr ThreadPoolFactory::GetInstance() {
 ThreadPoolUPtr ThreadPoolFactory::CreateFixedThreadPool(size_t numberOfThreads) {
     BlockingQueueFactoryPtr blockingQueueFactory = BlockingQueueFactory::GetInstance();
     if (blockingQueueFactory) {
-        TaskBlockingQueueUPtr blockingQueue = blockingQueueFactory->CreateInstance<Task>();
+        TaskBlockingQueueUPtr blockingQueue = blockingQueueFactory->CreateInstance<TaskPtr>();
         if (blockingQueue) {
             FixedThreadPoolUPtr fixedThreadPool(new FixedThreadPool(numberOfThreads, std::move(blockingQueue)));
             return std::move(fixedThreadPool);

@@ -2,7 +2,6 @@
 
 #include "StringUtils.h"
 
-#include <iostream>
 #include <string>
 
 namespace Http {
@@ -20,11 +19,7 @@ namespace Http {
     }
 
     size_t ResponseImpl::GetContentLength() {
-        std::string contentLength = GetHeaderValue("Content-Length");
-        if(!contentLength.empty()) {
-            return StringUtils::ToUnsignedInt(contentLength);
-        }
-        return 0;
+        return mContentLength;
     }
 
     std::string ResponseImpl::GetContentType() {

@@ -20,34 +20,34 @@ public:
         assert(IsClosed());
     }
     
-    QueueOperationStatus PushBack(const _Element_type& element) override {
+    QueueOperationStatus PushBack(_Element_type element) override {
         std::lock_guard<std::recursive_mutex> lock(mMutex);
         if(mClosed) {
             return QueueOperationStatus::CLOSED;
         } else {
-            mQueue.push_back(element);
+            mQueue.push_back(std::move(element));
             mQueueIsNotEmpty.notify_all();
             return QueueOperationStatus::SUCCESS;
         }
     }
     
-    QueueOperationStatus PushFront(const _Element_type& element) override {
+    QueueOperationStatus PushFront(_Element_type element) override {
         std::lock_guard<std::recursive_mutex> lock(mMutex);
         if(mClosed) {
             return QueueOperationStatus::CLOSED;
         } else {
-            mQueue.push_front(element);
+            mQueue.push_front(std::move(element));
             mQueueIsNotEmpty.notify_all();
             return QueueOperationStatus::SUCCESS;
         }
     }
         
-    QueueOperationStatus TryPushBack(const _Element_type& element) override {
-        return PushBack(element);
+    QueueOperationStatus TryPushBack(_Element_type element) override {
+        return PushBack(std::move(element));
     }
     
-    QueueOperationStatus TryPushFront(const _Element_type& element) override {
-        return PushFront(element);
+    QueueOperationStatus TryPushFront(_Element_type element) override {
+        return PushFront(std::move(element));
     }
     
     QueueOperationStatus PopFront(_Element_type* element) override {
@@ -134,13 +134,13 @@ public:
         }
     }
     
-    QueueOperationStatus NonblockingPushBack(const _Element_type& element) override {
+    QueueOperationStatus NonblockingPushBack(_Element_type element) override {
         NonblockingRecursiveLock lock(mMutex);
         if(lock.TryLock()) {
             if(mClosed) {
                 return QueueOperationStatus::CLOSED;
             } else {
-                mQueue.push_back(element);
+                mQueue.push_back(std::move(element));
                 mQueueIsNotEmpty.notify_all();
                 return QueueOperationStatus::SUCCESS;
             }
@@ -149,13 +149,13 @@ public:
         }
     }
 
-    QueueOperationStatus NonblockingPushFront(const _Element_type& element) override {
+    QueueOperationStatus NonblockingPushFront(_Element_type element) override {
         NonblockingRecursiveLock lock(mMutex);
         if(lock.TryLock()) {
             if(mClosed) {
                 return QueueOperationStatus::CLOSED;
             } else {
-                mQueue.push_front(element);
+                mQueue.push_front(std::move(element));
                 mQueueIsNotEmpty.notify_all();
                 return QueueOperationStatus::SUCCESS;
             }

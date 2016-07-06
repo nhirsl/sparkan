@@ -11,7 +11,6 @@
     using className##UPtr = std::unique_ptr<className>;
    
 DECLARE_SMART_PTRS(ThreadPool);
+DECLARE_SMART_PTRS(Task);
 DECLARE_SMART_PTRS(FixedThreadPool);
 DECLARE_SMART_PTRS(ThreadPoolFactory);
-
-using Task = std::function<void()>;

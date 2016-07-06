@@ -9,17 +9,17 @@ public:
     
     virtual ~BlockingQueue() = default;
 
-    virtual QueueOperationStatus PushFront(const _Element_type& element) = 0;
+    virtual QueueOperationStatus PushFront(_Element_type element) = 0;
     
-    virtual QueueOperationStatus PushBack(const _Element_type& element) = 0;
+    virtual QueueOperationStatus PushBack(_Element_type element) = 0;
     
-    virtual QueueOperationStatus TryPushFront(const _Element_type& element) = 0;
+    virtual QueueOperationStatus TryPushFront(_Element_type element) = 0;
     
-    virtual QueueOperationStatus TryPushBack(const _Element_type& element) = 0;
+    virtual QueueOperationStatus TryPushBack(_Element_type element) = 0;
     
-    virtual QueueOperationStatus NonblockingPushFront(const _Element_type& element) = 0;
+    virtual QueueOperationStatus NonblockingPushFront(_Element_type element) = 0;
     
-    virtual QueueOperationStatus NonblockingPushBack(const _Element_type& element) = 0;   
+    virtual QueueOperationStatus NonblockingPushBack(_Element_type element) = 0;   
     
     virtual QueueOperationStatus PopFront(_Element_type* element) = 0;
     

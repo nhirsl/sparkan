@@ -4,7 +4,6 @@
 #include "Request.h"
 #include "ResponseImpl.h"
 
-#include <iostream>
 #include <string>
 #include <cmath>
 
@@ -14,10 +13,12 @@ namespace Http {
         , mContentBuffer(0)
         , mCurrentContentPosition(0)
         , mBufferCapacity(0)
-        , mBufferIncreaseRate(512) {
+        , mBufferIncreaseRate(512)
+        , mHttpVersion("HTTP/1.1") {
     }
 
     ResponseBuilder::~ResponseBuilder() {
+        // do not delete mContentBuffer here - the mContentBuffer is not copied into Response, it is rather reused
     }
 
     ResponseUPtr ResponseBuilder::Build() {

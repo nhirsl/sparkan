@@ -13,6 +13,8 @@ namespace Http {
         
         virtual ~Requests() = default;
 
+        static RequestsPtr GetInstance();
+        
         virtual void Get(const std::string& url,
                          std::unordered_map<std::string, std::string> queryStringParams,
                          std::unordered_map<std::string, std::string> headers,

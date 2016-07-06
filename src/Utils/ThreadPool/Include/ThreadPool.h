@@ -12,7 +12,7 @@ public:
     
     virtual void Close() = 0;
     
-    virtual void Enqueue(Task task) = 0;
+    virtual void Enqueue(TaskPtr task) = 0;
     
-    virtual void Urgent(Task task) = 0;
+    virtual void Urgent(TaskPtr task) = 0;
 };

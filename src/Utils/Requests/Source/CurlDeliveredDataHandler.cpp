@@ -3,7 +3,6 @@
 #include "ResponseBuilder.h"
 #include "StringUtils.h"
 
-#include <iostream>
 #include <string>
 
 namespace Http {
@@ -16,9 +15,9 @@ namespace Http {
     }
     
     size_t CurlDeliveredDataHandler::HeadersHandler(void* deliveredData, size_t sizeOfUnit, size_t numberOfUnits, void* userData) {
-        std::string aHeader((char*)deliveredData, sizeOfUnit * numberOfUnits);
         ResponseBuilder* responseBuilder = (ResponseBuilder*)userData;
         if(responseBuilder) {
+            std::string aHeader((char*)deliveredData, sizeOfUnit * numberOfUnits);
             if(responseBuilder->IsHttpStatusHeaderParsed()) {
                 if(!StringUtils::Trim(aHeader).empty()) {
                     std::string headerKey;

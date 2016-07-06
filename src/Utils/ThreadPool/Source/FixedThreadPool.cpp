@@ -1,5 +1,7 @@
 #include "FixedThreadPool.h"
 
+#include "Task.h"
+
 #include <algorithm>
 
 FixedThreadPool::FixedThreadPool(size_t numberOfThreads, TaskBlockingQueueUPtr blockingQueue)
@@ -29,24 +31,26 @@ void FixedThreadPool::Close() {
     }
 }
 
-void FixedThreadPool::Enqueue(Task task) {
+void FixedThreadPool::Enqueue(TaskPtr task) {
     if (mTaskQueue) {
         mTaskQueue->PushBack(task);
     }
 }
 
-void FixedThreadPool::Urgent(Task task) {
+void FixedThreadPool::Urgent(TaskPtr task) {
     if (mTaskQueue) {
         mTaskQueue->PushFront(task);
     }
 }
 
 void FixedThreadPool::WorkerFunction() {
-    Task task;
     while(true) {
+        TaskPtr task;
         QueueOperationStatus queueOperationStatus = mTaskQueue->PopFront(&task);
         if (queueOperationStatus == QueueOperationStatus::CLOSED) {
             break;
+        } else {
+            task->Execute();
         }
     }
 }

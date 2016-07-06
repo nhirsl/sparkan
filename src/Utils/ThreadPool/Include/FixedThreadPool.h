@@ -8,7 +8,7 @@
 
 #include "BlockingQueue.h"
 
-using TaskBlockingQueueUPtr = std::unique_ptr<BlockingQueue<Task>>;
+using TaskBlockingQueueUPtr = std::unique_ptr<BlockingQueue<TaskPtr>>;
 
 class FixedThreadPool : public ThreadPool {
 public:
@@ -20,9 +20,9 @@ public:
     
     virtual void Close() override;
     
-    virtual void Enqueue(Task task) override;
+    virtual void Enqueue(TaskPtr task) override;
     
-    virtual void Urgent(Task task) override;
+    virtual void Urgent(TaskPtr task) override;
     
 private:
     void WorkerFunction();
