@@ -3,6 +3,7 @@
 #include "ForwardDeclarations.h"
 
 #include <string>
+#include <mutex>
 #include <unordered_map>
 #include <functional>
 
@@ -42,6 +43,10 @@ namespace Http {
 
         virtual void Delete(const std::string& url, 
                             std::function<void(ResponseUPtr)> responseHandler) = 0;
-                         
+    
+    private:
+        static std::mutex mutex;
+        
+        static RequestsPtr requests;
     };
 }
