@@ -5,13 +5,25 @@
 namespace Http {
     std::mutex Requests::mutex;
     
+    bool Requests::destroyed = false;
+    
     RequestsPtr Requests::requests;
     
     RequestsPtr Requests::GetInstance() {
         std::lock_guard<std::mutex> lock(mutex);
-        if (requests == nullptr) {
-            requests.reset(new RequestsImpl());
+        if (destroyed) {
+            return nullptr;
+        } else {
+            if (requests == nullptr) {
+                requests.reset(new RequestsImpl());
+            }
+            return requests;
         }
-        return requests;
+    }
+    
+    void Requests::Destroy() {
+        std::lock_guard<std::mutex> lock(mutex);
+        requests.reset();
+        destroyed = true;
     }
 }

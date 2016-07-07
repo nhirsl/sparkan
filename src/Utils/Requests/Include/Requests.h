@@ -16,6 +16,8 @@ namespace Http {
 
         static RequestsPtr GetInstance();
         
+        static void Destroy();
+        
         virtual void Get(const std::string& url,
                          std::unordered_map<std::string, std::string> queryStringParams,
                          std::unordered_map<std::string, std::string> headers,
@@ -46,6 +48,8 @@ namespace Http {
     
     private:
         static std::mutex mutex;
+        
+        static bool destroyed;
         
         static RequestsPtr requests;
     };
