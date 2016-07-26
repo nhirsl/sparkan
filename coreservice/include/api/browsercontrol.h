@@ -1,12 +1,12 @@
 #ifndef BROWSERCONTROL_H
 #define BROWSERCONTROL_H
-
+#include "coreservice_global.h"
 #include "browser.h"
-#include <QtCore/QUrl>
+#include <QUrl>
 #include <iostream>
 
 
-class BrowserControl : public QObject
+class CORESERVICE_DLLSPEC BrowserControl : public QObject
 {
     Q_OBJECT
 public:

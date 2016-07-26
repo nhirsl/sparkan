@@ -1,6 +1,6 @@
 #ifndef BROWSER_H
 #define BROWSER_H
-#include <QtCore/QObject>
+#include <QObject>
 #include <QUrl>
 
 class Browser: public QObject

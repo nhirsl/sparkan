@@ -13,6 +13,9 @@
 #include <QtNetwork/QNetworkProxy>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "coreservice.h"
+#include "webbrowser.h"
+#include "authlistener.h"
 
 static std::string clientSecret = "5a1b187745e79a6cb2fe6b005a3b3be16b633411374eacb84a38c3c4068fbf50";
 static std::string clientId = "Cf058c9b9c30412326fe40868e333796bfeae17fb58ef709de8a7e8c73850ceca";
@@ -28,6 +31,12 @@ void test()
 
 int main(int argc, char *argv[])
 {
+    CoreService* core = CoreService::getInstance();
+    WebBrowser* browser = new WebBrowser();
+    core->setBrowser(browser);
+    AuthListener auth;
+    auth.setCore(core);
+    auth.getOAuth();
     QApplication app(argc, argv);
     KLocalizedString::setApplicationDomain("sparkan");
 
@@ -52,6 +61,8 @@ int main(int argc, char *argv[])
                 // The bug report email address
                 // (bugsEmailAddress = QLatin1String("submit@bugs.kde.org")
                 QStringLiteral("sparkan@googlegroups.com"));
+    aboutData.addAuthor(i18n("Veljko Jasikovac"), i18n("Developer"), QStringLiteral("veljko.jasikovac@gmail.com"),
+                        QStringLiteral(""), QStringLiteral("veljko.jasikovac"));
     aboutData.addAuthor(i18n("Nebojsa Karan"), i18n("Developer"), QStringLiteral("nebojsakaran1011@gmail.com"),
                         QStringLiteral(""), QStringLiteral("nebojsa1011"));
     aboutData.addAuthor(i18n("Nemanja Hiršl"), i18n("Development Lead"), QStringLiteral("nemhirsl@gmail.com"),
@@ -60,14 +71,16 @@ int main(int argc, char *argv[])
                         QStringLiteral(""), QStringLiteral("nzikic"));
     KAboutData::setApplicationData(aboutData);
 
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    parser.addVersionOption();
+    aboutData.setupCommandLine(&parser);
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
 
-    /*QNetworkProxy proxy;
-    proxy.setType(QNetworkProxy::Socks5Proxy);
-    proxy.setType(QNetworkProxy::HttpProxy);
-    proxy.setHostName("rsbeproxy01.endava.net");
-    proxy.setPort(8080);
-    QNetworkProxy::setApplicationProxy(proxy);
-    */
-    return app.exec();
+    MainWindow* window = new MainWindow();
+    window->show();
+
+return app.exec();
 }
 

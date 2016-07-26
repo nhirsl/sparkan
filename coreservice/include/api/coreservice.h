@@ -1,15 +1,17 @@
 #ifndef CORESERVICE_H
 #define CORESERVICE_H
-#include <QtCore/QThread>
-#include <QtCore/QMutex>
-#include <QtCore/QObject>
+#include "coreservice_global.h"
+
+#include <QThread>
+#include <QMutex>
+#include <QObject>
 
 #include <browser.h>
 
 
 class BrowserControl;
 
-class CoreService : public QThread
+class CORESERVICE_DLLSPEC CoreService : public QThread
 {
     Q_OBJECT
 private:
@@ -39,5 +41,4 @@ signals:
 
 
 };
-
 #endif // CORESERVICE_H

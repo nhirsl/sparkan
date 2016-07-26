@@ -1,7 +1,7 @@
 #include "coreservice.h"
 #include "browsercontrol.h"
 #include <iostream>
-#include <QtCore/QDebug>
+#include <QDebug>
 
 CoreService* CoreService::singleton = NULL;
 QMutex* CoreService::static_mutex = new QMutex();
@@ -13,12 +13,13 @@ CoreService::CoreService(QObject *parent)
 
 CoreService::~CoreService()
 {
+    moveToThread(this);
 
 }
 
 void CoreService::run()
 {
-
+    std::cout << "run: " << QThread::currentThreadId() << std::endl;
     exec();
 }
 
@@ -52,6 +53,8 @@ void CoreService::setBrowser(Browser* browser)
 }
 
 void CoreService::getOAuth() {
+
+    std::cout << "getOAuth: " << QThread::currentThreadId() << std::endl;
     if (m_browser_controller != NULL)
     {
         m_browser_controller->startLogin();
