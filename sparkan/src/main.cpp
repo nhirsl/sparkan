@@ -28,7 +28,6 @@ void test()
 
 int main(int argc, char *argv[])
 {
-    /*
     QApplication app(argc, argv);
     KLocalizedString::setApplicationDomain("sparkan");
 
@@ -63,37 +62,12 @@ int main(int argc, char *argv[])
 
 
     /*QNetworkProxy proxy;
-     proxy.setType(QNetworkProxy::Socks5Proxy);
-     proxy.setType(QNetworkProxy::HttpProxy);
-     proxy.setHostName("rsbeproxy01.endava.net");
-     proxy.setPort(8080);
-     QNetworkProxy::setApplicationProxy(proxy);
-*/
-/*
-    QCommandLineParser parser;
-    parser.addHelpOption();
-    parser.addVersionOption();
-    aboutData.setupCommandLine(&parser);
-    parser.process(app);
-    aboutData.processCommandLine(&parser);
-
-    MainWindow* window = new MainWindow();
-    //window->setWindowIcon(QIcon(":/logo.png"));
-    window->setWindowIcon(QIcon("logo.png"));
-    window->show();
-
-
-    test();
-
-
-    return app.exec();
+    proxy.setType(QNetworkProxy::Socks5Proxy);
+    proxy.setType(QNetworkProxy::HttpProxy);
+    proxy.setHostName("rsbeproxy01.endava.net");
+    proxy.setPort(8080);
+    QNetworkProxy::setApplicationProxy(proxy);
     */
-
-    QGuiApplication app(argc, argv);
-
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-
     return app.exec();
 }
 

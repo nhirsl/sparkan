@@ -21,6 +21,7 @@ QString CachedAuthorization::get()
 
 void CachedAuthorization::write(QString auth)
 {
+    auth == auth;
 
 }
 

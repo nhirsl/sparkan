@@ -2,8 +2,9 @@ project (sparkan_cli)
 
 include_directories(include)
 include_directories(../coreservice/include/api)
+link_directories(../coreservice/)
 
-file(GLOB sparkan_HEADER "include/*.h" "*.h")
+file(GLOB sparkan_HEADER "include/*.h" "*.h" "../coreservice/include/api/*.h")
 file(GLOB sparkan_SRCS "*cpp" "*.c" "src/*.cpp" "src/*.c")
 file(GLOB sparkan_RES "res/*qrc")
 
@@ -45,8 +46,8 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++1y -pedantic")
 add_executable(sparkan ${sparkan_SRCS} ${sparkan_HEADER} ${RESOURCES} authview.ui)
-target_link_libraries(coreservice)
 
+target_link_libraries(sparkan coreservice)
 target_link_libraries(sparkan
     Qt5Network
     Qt5::Qml
