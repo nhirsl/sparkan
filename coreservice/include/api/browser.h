@@ -10,6 +10,7 @@ public:
     Browser(QObject *parent):QObject(parent){}
 public slots:
     virtual void load(const QUrl){}
+  //  virtual void show();
 
 };
 

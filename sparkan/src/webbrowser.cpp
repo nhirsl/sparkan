@@ -11,7 +11,6 @@ WebBrowser::WebBrowser(QObject *parent) : Browser(parent)
 
 void WebBrowser::load(const QUrl url)
 {
-    QThread* cthread = QThread::currentThread();
     QThread::currentThreadId();
-    std::cout << "Loadin: " << QThread::currentThreadId() << std::endl;
+    std::cout << "Loadin: " << QThread::currentThreadId() << " url: " << url.toString().toStdString()  <<std::endl;
 }

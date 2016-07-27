@@ -39,7 +39,10 @@ int main(int argc, char *argv[])
     auth.setCore(core);
     auth.getOAuth();
 
-    KLocalizedString::setApplicationDomain("sparkan");
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+ /*   KLocalizedString::setApplicationDomain("sparkan");
 
     KAboutData aboutData(
                 // The program name used internally. (componentName)
@@ -81,6 +84,7 @@ int main(int argc, char *argv[])
 
     MainWindow* window = new MainWindow();
     window->show();
+*/
 
 return app.exec();
 }

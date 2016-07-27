@@ -18,4 +18,7 @@ Window {
         text: qsTr("Hello World")
         anchors.centerIn: parent
     }
+    AuthenticationWindow {
+        visible: true
+    }
 }
