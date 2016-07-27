@@ -1,22 +1,30 @@
 #include "webbrowser.h"
-#include <QtCore/QDebug>
 #include <iostream>
-#include <QUrl>
-#include <QThread>
+
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 WebBrowser::WebBrowser(QObject *parent) : Browser(parent), m_url("http://portal.pstech.rs")
 {
 }
 
-void WebBrowser::load(const QUrl url)
+void WebBrowser::startLogin(const QUrl url)
 {
-    QThread::currentThreadId();
-    std::cout << "Loadin: " << QThread::currentThreadId() << " url: " << url.toString().toStdString()  <<std::endl;
+    setUrl(url);
+}
+
+void WebBrowser::stopLogin()
+{
+
 }
 
 void WebBrowser::onUrlChanged(QUrl url)
 {
-    std::cout << "onUrlChanged: " << url.toString().toStdString()  <<std::endl;
+    QString code = parseUrlForCode(url);
+    if (code.isEmpty()) return;
+    std::cout << "Code retrived: " << code.toStdString()  <<std::endl;
+    emit codeReceived(code);
+
 }
 
 void WebBrowser::setUrl(const QUrl url)

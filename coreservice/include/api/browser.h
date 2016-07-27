@@ -1,17 +1,25 @@
 #ifndef BROWSER_H
 #define BROWSER_H
+#include "coreservice_global.h"
+
 #include <QObject>
+#include <QString>
 #include <QUrl>
 
-class Browser: public QObject
+class CORESERVICE_DLLSPEC Browser: public QObject
 {
     Q_OBJECT
 public:
     Browser(QObject *parent):QObject(parent){}
-public slots:
-    virtual void load(const QUrl){}
-  //  virtual void show();
 
+    QString parseUrlForCode(QUrl url);
+
+public slots:
+    virtual void startLogin(const QUrl){}
+    virtual void stopLogin(){}
+  //  virtual void show();
+signals:
+    void codeReceived(QString code);
 };
 
 #endif // BROWSER_H
