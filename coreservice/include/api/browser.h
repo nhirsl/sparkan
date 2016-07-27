@@ -17,7 +17,6 @@ public:
 public slots:
     virtual void startLogin(const QUrl){}
     virtual void stopLogin(){}
-  //  virtual void show();
 signals:
     void codeReceived(QString code);
 };

@@ -33,7 +33,7 @@ void test()
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    //CoreService* core = CoreService::getInstance();
+    CoreService* core = CoreService::getInstance();
     WebBrowser browser;
     //core->setBrowser(browser);
     //AuthListener auth;

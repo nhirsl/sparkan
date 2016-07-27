@@ -7,7 +7,7 @@ AuthListener::AuthListener(QObject *parent):QObject(parent)
 
 void AuthListener::setCore(CoreService *core)
 {
-    connect(this, SIGNAL(OAuth()), core, SLOT(getOAuth()));
+    //connect(this, SIGNAL(OAuth()), core, SLOT(getOAuth()));
 }
 
 
