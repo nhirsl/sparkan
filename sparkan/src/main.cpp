@@ -13,6 +13,7 @@
 #include <QtNetwork/QNetworkProxy>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include "coreservice.h"
 #include "webbrowser.h"
 #include "authlistener.h"
@@ -32,15 +33,17 @@ void test()
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    CoreService* core = CoreService::getInstance();
-    WebBrowser* browser = new WebBrowser();
-    core->setBrowser(browser);
-    AuthListener auth;
-    auth.setCore(core);
-    auth.getOAuth();
-
+    //CoreService* core = CoreService::getInstance();
+    WebBrowser browser;
+    //core->setBrowser(browser);
+    //AuthListener auth;
+    //auth.setCore(core);
+    //auth.getOAuth();
     QQmlApplicationEngine engine;
+    auto root_context = engine.rootContext();
+    root_context->setContextProperty("myBrowser", &browser);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    browser.setUrl(QUrl("http://www.google.com"));
 
  /*   KLocalizedString::setApplicationDomain("sparkan");
 
