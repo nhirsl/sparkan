@@ -31,13 +31,14 @@ void test()
 
 int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
     CoreService* core = CoreService::getInstance();
     WebBrowser* browser = new WebBrowser();
     core->setBrowser(browser);
     AuthListener auth;
     auth.setCore(core);
     auth.getOAuth();
-    QApplication app(argc, argv);
+
     KLocalizedString::setApplicationDomain("sparkan");
 
     KAboutData aboutData(

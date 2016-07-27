@@ -13,7 +13,7 @@ CoreService::CoreService(QObject *parent)
 
 CoreService::~CoreService()
 {
-    moveToThread(this);
+
 
 }
 
@@ -29,6 +29,7 @@ CoreService* CoreService::getInstance() {
     if (singleton == NULL)
     {
         singleton = new CoreService();
+        singleton->moveToThread(singleton);
         singleton->start();
     }
 
