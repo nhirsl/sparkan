@@ -17,8 +17,16 @@ AuthListener::AuthListener(QObject *parent):TokenListener(parent)
 
 void AuthListener::gotMe(QNetworkReply* reply)
 {
+    QJsonDocument jdoc = QJsonDocument::fromJson(reply->readAll());
+    QJsonObject json = jdoc.object();
+    QString displayName = json.value("displayName").toString();
+    QUrl avatar = json.value("avatar").toString();
 
-    std::cout <<"AuthListener::gotMe" <<reply->readAll().constData() << std::endl << std::flush;
+    std::cout <<"AuthListener::gotMe" << displayName.toStdString() <<  std::endl << std::flush;
+    if (m_me != NULL){
+        m_me->setDisplayName(displayName);
+        m_me->setAvatar(avatar);
+    }
 }
 
 void AuthListener::onNewAccessToken(QString token)

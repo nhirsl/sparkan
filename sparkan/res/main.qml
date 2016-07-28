@@ -8,10 +8,19 @@ Window {
     height: 600
     title: qsTr("Hello World")
 
-    Text {
+    Column {
         visible: !myBrowser.visible
-        text: qsTr("Hello World")
         anchors.centerIn: parent
+
+        Image {
+            width: 128
+            height: 128
+            id: avatarMeId
+            source: Me.avatar
+        }
+        Text{
+            text: Me.displayName
+        }
     }
 
     AuthenticationWindow {
