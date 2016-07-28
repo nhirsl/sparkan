@@ -17,6 +17,7 @@
 #include "coreservice.h"
 #include "webbrowser.h"
 #include "authlistener.h"
+#include <QThread>
 
 
 
@@ -37,9 +38,11 @@ void test()
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    QThread::currentThread()->setObjectName("Main thread");
+
     CoreService* core = CoreService::getInstance();
     WebBrowser browser;
-    //core->setBrowser(browser);
+    core->setBrowser(&browser);
     //AuthListener auth;
     //auth.setCore(core);
     //auth.getOAuth();

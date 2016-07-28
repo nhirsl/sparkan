@@ -3,6 +3,7 @@
 
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QThread>
 
 WebBrowser::WebBrowser(QObject *parent) : Browser(parent), m_url("http://portal.pstech.rs")
 {
@@ -20,9 +21,10 @@ void WebBrowser::onStopLogin()
 
 void WebBrowser::onUrlChanged(QUrl url)
 {
+    QString tName = QThread::currentThread()->objectName();
     QString code = parseUrlForCode(url);
     if (code.isEmpty()) return;
-    std::cout << "Code retrived: " << code.toStdString()  <<std::endl;
+    std::cout << tName.toStdString() <<"Code retrived: " << code.toStdString()  <<std::endl;
     emit codeReceived(code);
 
 }

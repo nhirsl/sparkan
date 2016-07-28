@@ -7,7 +7,7 @@
 #include <QMutex>
 #include <QObject>
 
-//class Authenticator;
+class Authenticator;
 
 class CoreServiceImpl : public CoreService
 {
@@ -26,7 +26,7 @@ private:
     static CoreServiceImpl* singleton;
     static QThread* service_thread;
 
-    //Authenticator* m_authenticator;
+    Authenticator* m_authenticator;
 };
 
 

@@ -2,7 +2,7 @@ project (sparkan_cli)
 
 include_directories(include)
 include_directories(../coreservice/include/api)
-link_directories(../coreservice/)
+#link_directories(../coreservice/)
 
 file(GLOB sparkan_HEADER "include/*.h" "*.h" "../coreservice/include/api/*.h")
 file(GLOB sparkan_SRCS "*cpp" "*.c" "src/*.cpp" "src/*.c")
@@ -17,6 +17,7 @@ set(KF5_MIN_VERSION "5.2.0")
 include_directories ("${PROJECT_SOURCE_DIR}/include")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 find_package(ECM 1.0.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -44,10 +45,11 @@ qt5_add_resources(RESOURCES ${sparkan_RES})
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++1y -pedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++1y -pedantic -ffunction-sections")
 add_executable(sparkan ${sparkan_SRCS} ${sparkan_HEADER} ${RESOURCES} authview.ui)
 
-target_link_libraries(sparkan coreservice)
+#
+
 target_link_libraries(sparkan
     Qt5Network
     Qt5::Qml
@@ -60,5 +62,6 @@ target_link_libraries(sparkan
     KF5::XmlGui
     KF5::TextWidgets
 )
+target_link_libraries(sparkan coreservice)
 
 install(TARGETS sparkan  ${INSTALL_TARGETS_DEFAULT_ARGS}) 

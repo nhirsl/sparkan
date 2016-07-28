@@ -1,7 +1,6 @@
 #include "authenticator.h"
-#include <QObject>
-#include <QString>
 #include <iostream>
+#include <QThread>
 
 Authenticator::Authenticator(QObject* parent)
     :QObject(parent)
@@ -14,8 +13,11 @@ Authenticator::~Authenticator()
 
 }
 
+
 void Authenticator::onCodeReceived(QString code)
 {
-    std::cout << "onCodeReceived " << code.toStdString();
+    QString tName = QThread::currentThread()->objectName();
+    std::cout << tName.toStdString() <<" onCodeReceived " << code.toStdString() << std::endl << std::flush;
 }
+
 

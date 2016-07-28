@@ -2,9 +2,8 @@
 #define AUTHENTICATOR_H
 #include <QMutex>
 #include <QObject>
-#include <QUrl>
 #include <QString>
-#include "browser.h"
+#include <QUrl>
 #include "coreservice_global.h"
 
 class Authenticator : public QObject
@@ -24,5 +23,6 @@ signals:
 public slots:
     void onCodeReceived(QString code);
 };
+
 
 #endif

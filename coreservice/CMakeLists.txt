@@ -1,5 +1,5 @@
 project (coreservice)
-
+set(CMAKE_VERBOSE_MAKEFILE ON)
 include_directories(include)
 include_directories(include/api)
 add_definitions(-DCORESERVICE)
@@ -11,6 +11,7 @@ file(GLOB coreservice_SRCS "*cpp" "*.c" "src/*.cpp" "src/*.c")
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 cmake_policy(SET CMP0063 NEW)
 set(QT_MIN_VERSION "5.3.0")
+set(CMAKE_AUTOMOC ON)
 
 include_directories ("${PROJECT_SOURCE_DIR}/include")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
