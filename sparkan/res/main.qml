@@ -9,13 +9,13 @@ Window {
     title: qsTr("Hello World")
 
     Text {
-        visible: false
+        visible: !myBrowser.visible
         text: qsTr("Hello World")
         anchors.centerIn: parent
     }
 
     AuthenticationWindow {
-        visible: true
+        visible: myBrowser.visible
         anchors.fill: parent
     }
 

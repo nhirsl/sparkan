@@ -3,6 +3,7 @@
 #include "browser.h"
 #include <QMutexLocker>
 #include <QObject>
+#include "tokenListener.h"
 
 QMutex* CoreServiceImpl::static_mutex = new QMutex();
 CoreServiceImpl* CoreServiceImpl::singleton = NULL;
@@ -48,4 +49,14 @@ void CoreServiceImpl::setBrowser(const Browser *browser)
     QObject::connect(m_authenticator, SIGNAL(stopLogin()), browser, SLOT(onStopLogin()));
     QObject::connect(browser, SIGNAL(codeReceived(QString)), m_authenticator, SLOT(onCodeReceived(QString)));
 
+}
+
+QString CoreServiceImpl::getAuthToken()
+{
+    return m_authenticator->getAuthToken();
+}
+
+void CoreServiceImpl::addOAuthListener(const TokenListener *oauthl)
+{
+    QObject::connect(m_authenticator, SIGNAL(newAccessToken(QString)), oauthl, SLOT(onNewAccessToken(QString)));
 }

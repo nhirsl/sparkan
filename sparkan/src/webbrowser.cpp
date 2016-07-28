@@ -5,18 +5,21 @@
 #include <QRegularExpressionMatch>
 #include <QThread>
 
-WebBrowser::WebBrowser(QObject *parent) : Browser(parent), m_url("http://portal.pstech.rs")
+WebBrowser::WebBrowser(QObject *parent) : Browser(parent), m_url("http://portal.pstech.rs"), m_visible(false)
 {
 }
 
 void WebBrowser::onStartLogin(const QUrl url)
 {
     setUrl(url);
+    m_visible = true;
+    emit visibleChanged(m_visible);
 }
 
 void WebBrowser::onStopLogin()
 {
-
+    setUrl(QUrl("about:blank"));
+    emit visibleChanged(m_visible = false);
 }
 
 void WebBrowser::onUrlChanged(QUrl url)
@@ -26,6 +29,7 @@ void WebBrowser::onUrlChanged(QUrl url)
     if (code.isEmpty()) return;
     std::cout << tName.toStdString() <<"Code retrived: " << code.toStdString()  <<std::endl;
     emit codeReceived(code);
+    onStopLogin();
 
 }
 

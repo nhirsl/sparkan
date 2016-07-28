@@ -6,6 +6,7 @@
 #include <QObject>
 
 class Browser;
+class TokenListener;
 
 class CORESERVICE_DLLSPEC CoreService : public QObject
 {
@@ -16,6 +17,9 @@ public:
     ~CoreService();
 
     virtual void setBrowser(const Browser* browser) = 0;
+    virtual void addOAuthListener(const TokenListener* oauthl) = 0;
+    virtual QString getAuthToken() = 0;
+
     static CoreService* getInstance();
 };
 #endif // CORESERVICE_H

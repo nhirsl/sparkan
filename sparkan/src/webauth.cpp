@@ -41,38 +41,7 @@ void WebAuth::GetAuth()
 
 
 void WebAuth::nm_Redirect(QNetworkReply *reply){
-    if (reply->error() == QNetworkReply::NoError) {
-        int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-        switch (statusCode) {
-            case 301:
-            case 302:
-            case 307:
-            QUrl url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
-            QRegularExpression rx("localhost.*[&?]code=(.+?)[&^$]");
-            QRegularExpressionMatch match = rx.match(url.toString());
-            if (match.hasMatch())
-            {
-                view->stop();
-                widget->hide();
 
-
-                QNetworkRequest *request = new QNetworkRequest(QUrl("https://api.ciscospark.com/v1/access_token"));
-                request->setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-                request->setRawHeader(QByteArray("Accept"), QByteArray("application/json"));
-                QNetworkAccessManager *nm = new QNetworkAccessManager();
-                QString postData = "grant_type=authorization_code&"
-                                   "client_id=Cf058c9b9c30412326fe40868e333796bfeae17fb58ef709de8a7e8c73850ceca&"
-                                   "client_secret=5a1b187745e79a6cb2fe6b005a3b3be16b633411374eacb84a38c3c4068fbf50&"
-                                   "code=" + match.captured(1) + "&redirect_uri=http://localhost";
-
-
-                connect(nm, SIGNAL(finished(QNetworkReply*)), this, SLOT(nm_Token(QNetworkReply*)));
-                //view->load(*request, QNetworkAccessManager::PostOperation, postData.toUtf8());
-                nm->post(*request, postData.toUtf8());
-            }
-                break;
-        }
-    }
 }
 
 void WebAuth::nm_Token(QNetworkReply *reply)
@@ -80,8 +49,6 @@ void WebAuth::nm_Token(QNetworkReply *reply)
     QJsonDocument jdoc = QJsonDocument::fromJson(reply->readAll());
     QJsonObject json = jdoc.object();
     QString auth = json.value("access_token").toString();
-
-
 
 
 }

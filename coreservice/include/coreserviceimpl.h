@@ -17,6 +17,8 @@ public:
 
 
     virtual void setBrowser(const Browser* browser);
+    virtual void addOAuthListener(const TokenListener* oauthl);
+    virtual QString getAuthToken();
 signals:
     void fireSignal();
 

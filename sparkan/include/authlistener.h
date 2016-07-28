@@ -1,19 +1,23 @@
 #ifndef AUTHLISTENER_H
 #define AUTHLISTENER_H
-#include "coreservice.h"
+#include "tokenListener.h"
+
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QNetworkAccessManager>
 
 
-class AuthListener : public QObject
+class AuthListener : public TokenListener
 {
     Q_OBJECT
+private:
+    QNetworkRequest *request;
+    QNetworkAccessManager *nm;
 public:
     AuthListener(QObject* parent = 0);
-    ~AuthListener(){}
-    void setCore(CoreService* core);
-    void getOAuth();
-
-signals:
-    void OAuth();
+public slots:
+    virtual void onNewAccessToken(QString token);
+    void gotMe(QNetworkReply* reply);
 };
 
 #endif // AUTHLISTENER_H

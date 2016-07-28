@@ -18,7 +18,7 @@ public slots:
     virtual void onStartLogin(const QUrl){}
     virtual void onStopLogin(){}
 signals:
-    virtual void codeReceived(QString code);
+    void codeReceived(QString code);
 };
 
 #endif // BROWSER_H

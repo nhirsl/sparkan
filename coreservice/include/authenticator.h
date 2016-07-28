@@ -5,6 +5,7 @@
 #include <QString>
 #include <QUrl>
 #include "coreservice_global.h"
+#include <QNetworkReply>
 
 class Authenticator : public QObject
 {
@@ -13,15 +14,21 @@ public:
     Authenticator(QObject* parent = 0);
     ~Authenticator();
 
+    QString getAuthToken();
+
 private:
-    QMutex mutex;
+    QMutex m_mutex;
+    QString m_token;
+    bool m_logging_in;
 
 signals:
     void startLogin(const QUrl);
     void stopLogin();
+    void newAccessToken(QString token);
 
 public slots:
     void onCodeReceived(QString code);
+    void onAccessToken(QNetworkReply* reply);
 };
 
 

@@ -18,11 +18,12 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Core
+    Network
 )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++1y -pedantic")
 
 add_library(coreservice SHARED ${coreservice_SRCS} ${coreservice_HEADER})
-qt5_use_modules (coreservice Core)
+qt5_use_modules (coreservice Core Network)
 
 #install(TARGETS sparkan  ${INSTALL_TARGETS_DEFAULT_ARGS}) 
