@@ -18,6 +18,10 @@
 #include "webbrowser.h"
 #include "authlistener.h"
 
+
+
+
+
 static std::string clientSecret = "5a1b187745e79a6cb2fe6b005a3b3be16b633411374eacb84a38c3c4068fbf50";
 static std::string clientId = "Cf058c9b9c30412326fe40868e333796bfeae17fb58ef709de8a7e8c73850ceca";
 

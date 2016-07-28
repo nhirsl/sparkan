@@ -11,8 +11,8 @@ public:
     QUrl url() const { return m_url;}
     void setUrl(const QUrl url);
 public slots:
-    virtual void startLogin(const QUrl);
-    virtual void stopLogin();
+    virtual void onStartLogin(const QUrl);
+    virtual void onStopLogin();
     void onUrlChanged(const QUrl);
 private:
     QUrl m_url;

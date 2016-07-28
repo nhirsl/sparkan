@@ -8,12 +8,12 @@ WebBrowser::WebBrowser(QObject *parent) : Browser(parent), m_url("http://portal.
 {
 }
 
-void WebBrowser::startLogin(const QUrl url)
+void WebBrowser::onStartLogin(const QUrl url)
 {
     setUrl(url);
 }
 
-void WebBrowser::stopLogin()
+void WebBrowser::onStopLogin()
 {
 
 }

@@ -15,8 +15,8 @@ public:
     QString parseUrlForCode(QUrl url);
 
 public slots:
-    virtual void startLogin(const QUrl){}
-    virtual void stopLogin(){}
+    virtual void onStartLogin(const QUrl){}
+    virtual void onStopLogin(){}
 signals:
     void codeReceived(QString code);
 };

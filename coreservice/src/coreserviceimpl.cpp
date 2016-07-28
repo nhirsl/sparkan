@@ -1,4 +1,5 @@
 #include "coreserviceimpl.h"
+//#include "authenticator.h"
 #include <QMutexLocker>
 
 
@@ -38,4 +39,12 @@ CoreService* CoreServiceImpl::getInstance()
 
 
     return singleton;
+}
+
+void CoreServiceImpl::setBrowser(const Browser *browser)
+{
+    //connect(m_authenticator, SIGNAL(startLogin(QUrl)), browser, SLOT(onStartLogin(QUrl)));
+    //connect(m_authenticator, SIGNAL(stopLogin()), browser, SLOT(onStopLogin()));
+    //connect(browser, SIGNAL(codeReceived(QString)), m_authenticator, SLOT(onCodeReceived(QString)));
+
 }
