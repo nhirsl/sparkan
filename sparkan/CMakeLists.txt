@@ -46,7 +46,7 @@ qt5_add_resources(RESOURCES ${sparkan_RES})
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++1y -pedantic -ffunction-sections")
-add_executable(sparkan ${sparkan_SRCS} ${sparkan_HEADER} ${RESOURCES} authview.ui)
+add_executable(sparkan ${sparkan_SRCS} ${sparkan_HEADER} ${RESOURCES})
 
 #
 
