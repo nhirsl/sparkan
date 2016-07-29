@@ -8,14 +8,11 @@ ApplicationWindow
     visible: true
     width: 1024
     height: 600
-    title: qsTr("Hello World")
+    title: qsTr("Hello Sparkan")
     x: (Screen.width - aplicationWindowId.width) / 2
     y: (Screen.height - aplicationWindowId.height) / 2
 
-    menuBar: SparkanMenu
-    {
-        id: sparkanMenuId
-    }
+    menuBar: SparkanMenu{}
 
     Window
     {
@@ -33,6 +30,7 @@ ApplicationWindow
         height: 400
         width: 400
         visible:false
+
         title: Me.displayName
         x: aplicationWindowId.x
         y: aplicationWindowId.y

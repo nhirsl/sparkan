@@ -9,13 +9,26 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
 #include <QMutexLocker>
 
 QUrl oauthAuthorizationUrl("https://api.ciscospark.com/v1/authorize?client_id=Cf058c9b9c30412326fe40868e333796bfeae17fb58ef709de8a7e8c73850ceca&response_type=code&redirect_uri=http%3A%2F%2Flocalhost&scope=spark%3Amessages_write%20spark%3Arooms_read%20spark%3Amemberships_read%20spark%3Amessages_read%20spark%3Arooms_write%20spark%3Apeople_read%20spark%3Amemberships_write&state=set_state_here");
 Authenticator::Authenticator(QObject* parent)
     :QObject(parent)
 {
+    QFileInfo infFile(QDir::home(), ".sparkan/auth.cache");
+    if (infFile.exists())
+    {
 
+        QFile cache(infFile.absoluteFilePath());
+        if (cache.open(QIODevice::ReadOnly))
+        {
+            m_token = QString(cache.readAll()).trimmed();
+            cache.close();
+        }
+    }
 }
 
 Authenticator::~Authenticator()
@@ -51,6 +64,14 @@ void Authenticator::onAccessToken(QNetworkReply* reply)
     m_token = auth;
     m_logging_in = false;
 
+    QDir::home().mkdir(".sparkan");
+    QFileInfo infFile(QDir::home(), ".sparkan/auth.cache");
+    QFile cache(infFile.absoluteFilePath());
+    if (cache.open(QIODevice::ReadWrite | QIODevice::Truncate))
+    {
+        cache.write(m_token.toStdString().c_str());
+        cache.close();
+    }
     emit newAccessToken(auth);
 
 }
