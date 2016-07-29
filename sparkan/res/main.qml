@@ -25,6 +25,7 @@ Window {
 
     AuthenticationWindow {
         visible: myBrowser.visible
+        focus: myBrowser.visible
         anchors.fill: parent
     }
 

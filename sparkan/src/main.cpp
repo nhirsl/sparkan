@@ -18,6 +18,10 @@
 #include "webbrowser.h"
 #include "authlistener.h"
 #include <QThread>
+#include <QProcessEnvironment>
+
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 
 
@@ -39,6 +43,27 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QThread::currentThread()->setObjectName("Main thread");
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QString proxy = env.value("https_proxy");
+
+    if (!proxy.trimmed().isEmpty())
+    {
+        std::cout << "proxy: " << proxy.toStdString() << std::endl << std::flush;
+        QRegularExpression rx(R"(https?:\/\/(.*):(\d.*)\/?)");
+        QRegularExpressionMatch match = rx.match(proxy);
+        if (match.lastCapturedIndex() == 2)
+        {
+            std::cout << "hostname: " << match.captured(1).toStdString() << "; port: " << match.captured(2).toStdString() << ";" << std::endl << std::flush;
+            QNetworkProxy proxy;
+            proxy.setType(QNetworkProxy::HttpProxy);
+            proxy.setHostName(match.captured(1));
+            proxy.setPort(match.captured(2).toInt());
+         // proxy.setUser("username");
+         // proxy.setPassword("password");
+            QNetworkProxy::setApplicationProxy(proxy);
+        }
+    }
+
     QQmlApplicationEngine engine;
     auto root_context = engine.rootContext();
 
