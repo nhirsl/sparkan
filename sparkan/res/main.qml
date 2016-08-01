@@ -22,8 +22,26 @@ ApplicationWindow
         visible:false
         x: aplicationWindowId.x
         y: aplicationWindowId.y
-    }
+        title: "Sparkan"
 
+        Column{
+            Text{
+                text: "Sparkan 1.0 \nhttps://github.com/nhirsl/sparkan"
+            }
+            Text {
+                text: "Developers"
+            }
+            Text {
+                text: "Veljko Jasikovac \tveljko.jasikovac@gmail.com \tveljko.jasikovac \nNebojsa Karan \tnebojsakaran1011@gmail.com \tnebojsa1011 \nNenad Žikić \tnenad.zikic@gmail.com"
+            }
+            Text {
+                text: "Development Lead"
+            }
+            Text {
+                text: "Nemanja Hiršl nemhirsl@gmail.com http://alas.matf.bg.ac.rs/~mr97352/ nhirsl "
+            }
+        }
+    }
     Window
     {
         id: userProfileId
