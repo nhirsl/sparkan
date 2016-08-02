@@ -1,12 +1,12 @@
 #pragma once
 
-#include "ThreadPool.h"
+#include "ThreadPool/ThreadPool.h"
 
 #include <vector>
 #include <memory>
 #include <thread>
 
-#include "BlockingQueue.h"
+#include "BlockingQueue/BlockingQueue.h"
 
 using TaskBlockingQueueUPtr = std::unique_ptr<BlockingQueue<TaskPtr>>;
 

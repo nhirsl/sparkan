@@ -4,11 +4,12 @@ project(BlockingQueue)
 
 add_compile_options(-std=c++14)
 
+set(${PROJECT_NAME}_API_DIR ${PROJECT_SOURCE_DIR}/API 
+    CACHE INTERNAL "${PROJECT_NAME}: API Directory" FORCE)
+
+include_directories(API)
 include_directories(Include)
-
-set(${PROJECT_NAME}_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include 
-    CACHE INTERNAL "${PROJECT_NAME}: Include Directory" FORCE)
-
+    
 set(CPP_FILES 
     Source/BlockingQueueFactory.cpp
     Source/NonblockingRecursiveLock.cpp)

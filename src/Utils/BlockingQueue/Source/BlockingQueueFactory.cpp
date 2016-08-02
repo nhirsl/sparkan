@@ -1,4 +1,4 @@
-#include "BlockingQueueFactory.h"
+#include "BlockingQueue/BlockingQueueFactory.h"
 
 BlockingQueueFactoryWPtr BlockingQueueFactory::instance;
 

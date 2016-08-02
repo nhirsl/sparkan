@@ -3,8 +3,8 @@
 #include "ForwardDeclarations.h"
 
 #include "BlockingQueue.h"
-#include "SizeLimitedBlockingQueue.h"
-#include "SizeUnlimitedBlockingQueue.h"
+#include "../../Include/SizeLimitedBlockingQueue.h"
+#include "../../Include/SizeUnlimitedBlockingQueue.h"
 
 #include <mutex>
 

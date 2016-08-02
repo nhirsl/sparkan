@@ -4,10 +4,11 @@ project(ThreadPool)
 
 add_compile_options(-std=c++14)
 
-SET(${PROJECT_NAME}_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include 
-    CACHE INTERNAL "${PROJECT_NAME}: Include Directory" FORCE)
+SET(${PROJECT_NAME}_API_DIR ${PROJECT_SOURCE_DIR}/API 
+    CACHE INTERNAL "${PROJECT_NAME}: API Directory" FORCE)
 
-include_directories(${BlockingQueue_INCLUDE_DIR})
+include_directories(${BlockingQueue_API_DIR})
+include_directories(API)
 include_directories(Include)
 
 set(CPP_FILES 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Response.h"
+#include "Requests/Response.h"
 
 namespace Http {
     class ResponseImpl : public Response {
@@ -17,11 +17,11 @@ namespace Http {
         
         virtual std::string GetHeaderValue(std::string headerKey) override;
         
-        virtual std::unordered_map<std::string, std::string> GetHeaders() override;
+        virtual std::map<std::string, std::string> GetHeaders() override;
         
         virtual bool HeaderExists(const std::string& headerKey) override;
         
-        virtual std::string GetHttpVersion() override;
+        virtual ProtocolVersion GetProtocolVersion() override;
         
         virtual unsigned int GetStatusCode() override;
         
@@ -29,13 +29,13 @@ namespace Http {
         
         virtual RequestUPtr GetRequest() override;
         
-        void SetHttpVersion(const std::string& httpVersion);
+        void SetProtocolVersion(ProtocolVersion protocolVersion);
         
         void SetStatusCode(unsigned int statusCode);
         
         void SetStatusText(const std::string& statusText);
         
-        void SetHeaders(std::unordered_map<std::string, std::string> headers);
+        void SetHeaders(std::map<std::string, std::string> headers);
         
         void SetContent(void* content, size_t contentLength);
         
@@ -44,13 +44,13 @@ namespace Http {
     private:
         RequestUPtr mRequest;
         
-        std::string mHttpVersion;
+        ProtocolVersion mProtocolVersion;
         unsigned int mStatusCode;
         std::string mStatusText;
         
         void* mContent;
         size_t mContentLength;
         
-        std::unordered_map<std::string, std::string> mHeaders;
+        std::map<std::string, std::string> mHeaders;
     };
 }
