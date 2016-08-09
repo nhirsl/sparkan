@@ -1,18 +1,5 @@
 #include "IncommingTask.h"
 
-<<<<<<< HEAD
-#include "RequestImpl.h"
-#include "Response.h"
-#include "ResponseBuilder.h"
-#include "CurlDeliveredDataHandler.h"
-
-#include <iostream>
-
-namespace Http {
-    IncommingTask::IncommingTask(RequestImplUPtr requestImpl) 
-        : mResponseBuilder(new ResponseBuilder())
-        , mRequestImpl(std::move(requestImpl))
-=======
 #include "CurlDeliveredDataHandler.h"
 #include "ResponseBuilder.h"
 
@@ -26,7 +13,6 @@ namespace Http {
         : mResponseBuilder(new ResponseBuilder())
         , mRequest(std::move(request))
         , mResponseHandler(std::move(responseHandler))
->>>>>>> nebojsakaran
         , mCurlHeaders(0)
         , mCurl(curl_easy_init()) {
     }
@@ -47,21 +33,12 @@ namespace Http {
 
         SetMethod();
         SetUrl();
-<<<<<<< HEAD
-        SetHttpVersion();
-
-        SetHeaders();
-
-        if (mRequestImpl->GetMethod() == Method::POST || 
-            mRequestImpl->GetMethod() == Method::PUT) {
-=======
         SetProtocolVersion();
 
         SetHeaders();
 
         if (mRequest->GetMethod() == Method::POST || 
             mRequest->GetMethod() == Method::PUT) {
->>>>>>> nebojsakaran
             SetContent();
         }
         
@@ -84,11 +61,7 @@ namespace Http {
     
     void IncommingTask::SetMethod() {
         if (mCurl) {
-<<<<<<< HEAD
-            switch(mRequestImpl->GetMethod()) {
-=======
             switch(mRequest->GetMethod()) {
->>>>>>> nebojsakaran
             case Method::POST:   curl_easy_setopt(mCurl, CURLOPT_POST, 1L);                  break;
             case Method::DELETE: curl_easy_setopt(mCurl, CURLOPT_CUSTOMREQUEST, "DELETE");   break;
             case Method::PUT:    curl_easy_setopt(mCurl, CURLOPT_CUSTOMREQUEST, "PUT");      break; // CURLOPT_PUT is deprecated
@@ -98,14 +71,6 @@ namespace Http {
     
     void IncommingTask::SetUrl() {
         if (mCurl) {
-<<<<<<< HEAD
-            curl_easy_setopt(mCurl, CURLOPT_URL, mRequestImpl->GetUrl().c_str());
-        }
-    }
-    
-    void IncommingTask::SetHttpVersion() {
-        
-=======
             curl_easy_setopt(mCurl, CURLOPT_URL, mRequest->GetUrl().c_str());
         }
     }
@@ -125,16 +90,11 @@ namespace Http {
         default: 
             curl_easy_setopt(mCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE); // libcurl will use whatever it thinks fit
         }
->>>>>>> nebojsakaran
     }
     
     void IncommingTask::SetHeaders() {
         if (mCurlHeaders) {
-<<<<<<< HEAD
-            std::unordered_map<std::string, std::string> headersMap = mRequestImpl->GetHeaders();
-=======
             std::map<std::string, std::string> headersMap = mRequest->GetHeaders();
->>>>>>> nebojsakaran
             if (headersMap.size() > 0) {
                 typename decltype(headersMap)::iterator iter = headersMap.begin();
                 typename decltype(headersMap)::iterator end = headersMap.end();
@@ -148,24 +108,13 @@ namespace Http {
     
     void IncommingTask::SetContent() {
         if (mCurl) {
-<<<<<<< HEAD
-            curl_easy_setopt(mCurl, CURLOPT_POSTFIELDS, mRequestImpl->GetContent());
-            curl_easy_setopt(mCurl, CURLOPT_POSTFIELDSIZE, mRequestImpl->GetContentLength());
-=======
             curl_easy_setopt(mCurl, CURLOPT_POSTFIELDS, mRequest->GetContent());
             curl_easy_setopt(mCurl, CURLOPT_POSTFIELDSIZE, mRequest->GetContentLength());
->>>>>>> nebojsakaran
         }
     }
     
     void IncommingTask::PerformResponseHandler() {
-<<<<<<< HEAD
-        std::function<void(ResponseUPtr)> resposneHandler = mRequestImpl->GetResponseHandler();
-        mResponseBuilder->SetRequest(std::move(mRequestImpl));
-        resposneHandler(mResponseBuilder->Build());
-=======
         mResponseBuilder->SetRequest(std::move(mRequest));
         mResponseHandler(mResponseBuilder->Build());
->>>>>>> nebojsakaran
     }
 }

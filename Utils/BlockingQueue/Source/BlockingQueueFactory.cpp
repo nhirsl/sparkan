@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-#include "BlockingQueueFactory.h"
-=======
 #include "BlockingQueue/BlockingQueueFactory.h"
->>>>>>> nebojsakaran
 
 BlockingQueueFactoryWPtr BlockingQueueFactory::instance;
 

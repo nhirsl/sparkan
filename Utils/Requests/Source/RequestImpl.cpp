@@ -4,15 +4,6 @@
 #include "CurlDeliveredDataHandler.h"
 
 #include <string>
-<<<<<<< HEAD
-#include <unordered_map>
-
-namespace Http {
-    RequestImpl::RequestImpl() {
-    }
-    
-    RequestImpl::~RequestImpl() { 
-=======
 #include <cstring>
 #include <map>
 
@@ -29,20 +20,14 @@ namespace Http {
     
     Method RequestImpl::GetMethod() {
         return mMethod;
->>>>>>> nebojsakaran
     }
     
     std::string RequestImpl::GetUrl() {
         return mUrl;
     }
     
-<<<<<<< HEAD
-    std::string RequestImpl::GetHttpVersion() {
-        return "HTTP/1.1";
-=======
     ProtocolVersion RequestImpl::GetProtocolVersion() {
         return mProtocolVersion;
->>>>>>> nebojsakaran
     }
     
     std::string RequestImpl::GetHeaderValue(std::string headerKey) {
@@ -53,11 +38,7 @@ namespace Http {
         return "";
     }    
     
-<<<<<<< HEAD
-    std::unordered_map<std::string, std::string> RequestImpl::GetHeaders() {
-=======
     std::map<std::string, std::string> RequestImpl::GetHeaders() {
->>>>>>> nebojsakaran
         return mHeaders;
     }
     
@@ -66,30 +47,6 @@ namespace Http {
         return iter != mHeaders.end();
     }    
     
-<<<<<<< HEAD
-    void RequestImpl::SetUrl(const std::string& url) {
-        mUrl = url;
-    }
-    
-    void* RequestImpl::GetContent() {
-        return 0;
-    }
-    
-    size_t RequestImpl::GetContentLength() {
-        return 0;
-    }
-    
-    void RequestImpl::AddHeaders(std::unordered_map<std::string, std::string> headers) {
-        mHeaders.insert(headers.begin(), headers.end());
-    }
-    
-    void RequestImpl::OnResponse(std::function<void(ResponseUPtr)> aResponseHandler) {
-        mResponseHandler = aResponseHandler;
-    }
-    
-    std::function<void(ResponseUPtr)> RequestImpl::GetResponseHandler() {
-        return mResponseHandler;
-=======
     void* RequestImpl::GetContent() {
         return mContent;
     }
@@ -119,6 +76,5 @@ namespace Http {
         memcpy(mContent, content, contentLength);
         
         mContentLength = contentLength;
->>>>>>> nebojsakaran
     }
 }
