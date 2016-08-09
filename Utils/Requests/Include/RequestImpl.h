@@ -1,15 +1,12 @@
 #pragma once
 
-#include "ForwardDeclarations.h"
+#include "Requests/ForwardDeclarations.h"
 
-#include "Request.h"
-
-//#include "ThreadpOOl"
-//#include "ThreadPool.h"
+#include "Requests/ProtocolVersion.h"
+#include "Requests/Request.h"
 
 #include <string>
-#include <unordered_map>
-#include <functional>
+#include <map>
 
 namespace Http {
     class RequestImpl : public Request {
@@ -18,13 +15,15 @@ namespace Http {
         
         virtual ~RequestImpl();
         
+        virtual Method GetMethod() override;
+        
         virtual std::string GetUrl() override;
         
-        virtual std::string GetHttpVersion() override;
+        virtual ProtocolVersion GetProtocolVersion() override;
         
         virtual std::string GetHeaderValue(std::string headerKey) override;
         
-        virtual std::unordered_map<std::string, std::string> GetHeaders() override;
+        virtual std::map<std::string, std::string> GetHeaders() override;
         
         virtual bool HeaderExists(const std::string& headerKey) override;
         
@@ -32,19 +31,26 @@ namespace Http {
         
         virtual size_t GetContentLength() override;
         
+        void SetMethod(Method method);
+        
         void SetUrl(const std::string& url);
         
-        void AddHeaders(std::unordered_map<std::string, std::string> headers);
+        void SetProtocolVersion(ProtocolVersion httpVersion);
         
-        void OnResponse(std::function<void(ResponseUPtr)> fn);
+        void SetHeaders(std::map<std::string, std::string> headers);
         
-        std::function<void(ResponseUPtr)> GetResponseHandler();
+        void SetContent(void* content, size_t contentLength);
         
     private:
-        std::function<void(ResponseUPtr)> mResponseHandler;
-        
+        Method mMethod;
+
         std::string mUrl;
         
-        std::unordered_map<std::string, std::string> mHeaders;
+        ProtocolVersion mProtocolVersion;
+        
+        std::map<std::string, std::string> mHeaders;
+        
+        void* mContent;
+        size_t mContentLength;
     };
 }

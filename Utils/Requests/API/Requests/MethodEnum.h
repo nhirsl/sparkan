@@ -2,6 +2,9 @@
 
 namespace Http {
     enum class Method {
-        GET, POST, PUT, DELETE
+        GET, 
+        POST, 
+        PUT, 
+        DELETE
     };
 }

@@ -26,11 +26,11 @@ namespace Http {
                     responseBuilder->AddHeader(headerKey, headerValue);
                 }
             } else {
-                std::string httpVersion;
+                std::string protocolVersionString;
                 std::string statusCode;
                 std::string statusText;
-                ParseStatusHeader(aHeader, &httpVersion, &statusCode, &statusText);
-                responseBuilder->SetHttpVersion(httpVersion);
+                ParseStatusHeader(aHeader, &protocolVersionString, &statusCode, &statusText);
+                responseBuilder->SetProtocolVersion(ToProtocolVersion(protocolVersionString));
                 responseBuilder->SetStatusCode(StringUtils::ToUnsignedInt(statusCode));
                 responseBuilder->SetStatusText(statusText);
                 responseBuilder->SetHttpStatusHeaderIsParsed(true);
@@ -48,12 +48,22 @@ namespace Http {
         }
     }
 
-    void CurlDeliveredDataHandler::ParseStatusHeader(const std::string& statusHeader, std::string* httpVersion, std::string* statusCode, std::string* statusText) {
+    void CurlDeliveredDataHandler::ParseStatusHeader(const std::string& statusHeader, std::string* protocolVersionString, std::string* statusCode, std::string* statusText) {
         std::vector<std::string> parts = StringUtils::Split(statusHeader, " ", 2);
         if(parts.size() == 3) {
-            *httpVersion = StringUtils::Trim(parts.at(0));
+            *protocolVersionString = StringUtils::Trim(parts.at(0));
             *statusCode = StringUtils::Trim(parts.at(1));
             *statusText = StringUtils::Trim(parts.at(2));
+        }
+    }
+    
+    ProtocolVersion CurlDeliveredDataHandler::ToProtocolVersion(const std::string& version) {
+        if (StringUtils::CaseInsensitiveEqual(version, "HTTP/1.1")) {
+            return ProtocolVersion::HTTP_1_1;
+        } else if (StringUtils::CaseInsensitiveEqual(version, "HTTP/1.0")) {
+            return ProtocolVersion::HTTP_1_0;
+        } else {
+            return ProtocolVersion::HTTP_2;
         }
     }
 }

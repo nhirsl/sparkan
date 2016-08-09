@@ -1,10 +1,11 @@
 #pragma once
 
-#include "ForwardDeclarations.h"
+#include "Requests/ForwardDeclarations.h"
+#include "Requests/ProtocolVersion.h"
 
 #include <cstddef>
 #include <string>
-#include <unordered_map>
+#include <map>
 
 namespace Http {
     class ResponseBuilder {
@@ -17,7 +18,7 @@ namespace Http {
         
         void AddHeader(const std::string& headerKey, const std::string& headerValue);
 
-        void SetHttpVersion(std::string httpVersion);
+        void SetProtocolVersion(ProtocolVersion protocolVersion);
         
         void SetStatusCode(unsigned int statusCode);
         
@@ -48,11 +49,11 @@ namespace Http {
         
         std::string GetHeaderValue(const std::string& headerKey);
         
-        std::string mHttpVersion;
+        ProtocolVersion mProtocolVersion;
         unsigned int mStatusCode;
         std::string mStatusText;
         
-        std::unordered_map<std::string, std::string> mHeaders;
+        std::map<std::string, std::string> mHeaders;
         
         char* mContentBuffer;
         char* mCurrentContentPosition;

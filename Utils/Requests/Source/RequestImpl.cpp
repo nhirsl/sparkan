@@ -4,21 +4,30 @@
 #include "CurlDeliveredDataHandler.h"
 
 #include <string>
-#include <unordered_map>
+#include <cstring>
+#include <map>
 
 namespace Http {
-    RequestImpl::RequestImpl() {
+    RequestImpl::RequestImpl()
+        : mContent(0)
+        , mContentLength(0) {
     }
     
-    RequestImpl::~RequestImpl() { 
+    RequestImpl::~RequestImpl() {
+        delete[] static_cast<char*>(mContent);
+        mContent = 0;
+    }
+    
+    Method RequestImpl::GetMethod() {
+        return mMethod;
     }
     
     std::string RequestImpl::GetUrl() {
         return mUrl;
     }
     
-    std::string RequestImpl::GetHttpVersion() {
-        return "HTTP/1.1";
+    ProtocolVersion RequestImpl::GetProtocolVersion() {
+        return mProtocolVersion;
     }
     
     std::string RequestImpl::GetHeaderValue(std::string headerKey) {
@@ -29,7 +38,7 @@ namespace Http {
         return "";
     }    
     
-    std::unordered_map<std::string, std::string> RequestImpl::GetHeaders() {
+    std::map<std::string, std::string> RequestImpl::GetHeaders() {
         return mHeaders;
     }
     
@@ -38,27 +47,34 @@ namespace Http {
         return iter != mHeaders.end();
     }    
     
+    void* RequestImpl::GetContent() {
+        return mContent;
+    }
+    
+    size_t RequestImpl::GetContentLength() {
+        return mContentLength;
+    }
+    
+    void RequestImpl::SetMethod(Method method) {
+        mMethod = method;
+    }
+    
     void RequestImpl::SetUrl(const std::string& url) {
         mUrl = url;
     }
     
-    void* RequestImpl::GetContent() {
-        return 0;
+    void RequestImpl::SetProtocolVersion(ProtocolVersion protocolVersion) {
+        mProtocolVersion = protocolVersion;
     }
     
-    size_t RequestImpl::GetContentLength() {
-        return 0;
-    }
-    
-    void RequestImpl::AddHeaders(std::unordered_map<std::string, std::string> headers) {
+    void RequestImpl::SetHeaders(std::map<std::string, std::string> headers) {
         mHeaders.insert(headers.begin(), headers.end());
     }
-    
-    void RequestImpl::OnResponse(std::function<void(ResponseUPtr)> aResponseHandler) {
-        mResponseHandler = aResponseHandler;
-    }
-    
-    std::function<void(ResponseUPtr)> RequestImpl::GetResponseHandler() {
-        return mResponseHandler;
+
+    void RequestImpl::SetContent(void* content, size_t contentLength) {
+        mContent = new char[contentLength];
+        memcpy(mContent, content, contentLength);
+        
+        mContentLength = contentLength;
     }
 }

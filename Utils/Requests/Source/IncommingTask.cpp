@@ -1,16 +1,18 @@
 #include "IncommingTask.h"
 
-#include "RequestImpl.h"
-#include "Response.h"
-#include "ResponseBuilder.h"
 #include "CurlDeliveredDataHandler.h"
+#include "ResponseBuilder.h"
 
-#include <iostream>
+#include "Requests/Request.h"
+#include "Requests/Response.h"
 
 namespace Http {
-    IncommingTask::IncommingTask(RequestImplUPtr requestImpl) 
+    IncommingTask::IncommingTask(
+        RequestUPtr request, 
+        ResponseHandlerType responseHandler)
         : mResponseBuilder(new ResponseBuilder())
-        , mRequestImpl(std::move(requestImpl))
+        , mRequest(std::move(request))
+        , mResponseHandler(std::move(responseHandler))
         , mCurlHeaders(0)
         , mCurl(curl_easy_init()) {
     }
@@ -31,12 +33,12 @@ namespace Http {
 
         SetMethod();
         SetUrl();
-        SetHttpVersion();
+        SetProtocolVersion();
 
         SetHeaders();
 
-        if (mRequestImpl->GetMethod() == Method::POST || 
-            mRequestImpl->GetMethod() == Method::PUT) {
+        if (mRequest->GetMethod() == Method::POST || 
+            mRequest->GetMethod() == Method::PUT) {
             SetContent();
         }
         
@@ -59,7 +61,7 @@ namespace Http {
     
     void IncommingTask::SetMethod() {
         if (mCurl) {
-            switch(mRequestImpl->GetMethod()) {
+            switch(mRequest->GetMethod()) {
             case Method::POST:   curl_easy_setopt(mCurl, CURLOPT_POST, 1L);                  break;
             case Method::DELETE: curl_easy_setopt(mCurl, CURLOPT_CUSTOMREQUEST, "DELETE");   break;
             case Method::PUT:    curl_easy_setopt(mCurl, CURLOPT_CUSTOMREQUEST, "PUT");      break; // CURLOPT_PUT is deprecated
@@ -69,17 +71,30 @@ namespace Http {
     
     void IncommingTask::SetUrl() {
         if (mCurl) {
-            curl_easy_setopt(mCurl, CURLOPT_URL, mRequestImpl->GetUrl().c_str());
+            curl_easy_setopt(mCurl, CURLOPT_URL, mRequest->GetUrl().c_str());
         }
     }
     
-    void IncommingTask::SetHttpVersion() {
-        
+    void IncommingTask::SetProtocolVersion() {
+        ProtocolVersion protocolVersion = mRequest->GetProtocolVersion();
+        switch (protocolVersion) {
+        case ProtocolVersion::HTTP_1_0: 
+            curl_easy_setopt(mCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+            break;
+        case ProtocolVersion::HTTP_1_1: 
+            curl_easy_setopt(mCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            break;
+        case ProtocolVersion::HTTP_2: 
+            curl_easy_setopt(mCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
+            break;
+        default: 
+            curl_easy_setopt(mCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE); // libcurl will use whatever it thinks fit
+        }
     }
     
     void IncommingTask::SetHeaders() {
         if (mCurlHeaders) {
-            std::unordered_map<std::string, std::string> headersMap = mRequestImpl->GetHeaders();
+            std::map<std::string, std::string> headersMap = mRequest->GetHeaders();
             if (headersMap.size() > 0) {
                 typename decltype(headersMap)::iterator iter = headersMap.begin();
                 typename decltype(headersMap)::iterator end = headersMap.end();
@@ -93,14 +108,13 @@ namespace Http {
     
     void IncommingTask::SetContent() {
         if (mCurl) {
-            curl_easy_setopt(mCurl, CURLOPT_POSTFIELDS, mRequestImpl->GetContent());
-            curl_easy_setopt(mCurl, CURLOPT_POSTFIELDSIZE, mRequestImpl->GetContentLength());
+            curl_easy_setopt(mCurl, CURLOPT_POSTFIELDS, mRequest->GetContent());
+            curl_easy_setopt(mCurl, CURLOPT_POSTFIELDSIZE, mRequest->GetContentLength());
         }
     }
     
     void IncommingTask::PerformResponseHandler() {
-        std::function<void(ResponseUPtr)> resposneHandler = mRequestImpl->GetResponseHandler();
-        mResponseBuilder->SetRequest(std::move(mRequestImpl));
-        resposneHandler(mResponseBuilder->Build());
+        mResponseBuilder->SetRequest(std::move(mRequest));
+        mResponseHandler(mResponseBuilder->Build());
     }
 }

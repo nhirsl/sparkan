@@ -1,15 +1,16 @@
 #pragma once
 
-#include "ForwardDeclarations.h"
+#include "Requests/ForwardDeclarations.h"
 
-#include "Task.h"
+#include "ThreadPool/Task.h"
+#include "ThreadPool/ForwardDeclarations.h"
 
 #include <curl/curl.h>
 
 namespace Http {
     class IncommingTask : public ::Task {
     public:
-        IncommingTask(RequestImplUPtr requestImpl);
+        IncommingTask(RequestUPtr requestImpl, ResponseHandlerType responseHandler);
         
         ~IncommingTask();
         
@@ -19,16 +20,18 @@ namespace Http {
         void InitCurlParams();
         void SetMethod();
         void SetUrl();
-        void SetHttpVersion();
+        void SetProtocolVersion();
         void SetHeaders();
         void SetContent();
         void PerformResponseHandler();
         
         ResponseBuilder* mResponseBuilder;
-        RequestImplUPtr mRequestImpl;
+        
+        RequestUPtr mRequest;
+        
+        ResponseHandlerType mResponseHandler;
         
         struct curl_slist* mCurlHeaders;
         CURL* mCurl;
     };    
 }
-

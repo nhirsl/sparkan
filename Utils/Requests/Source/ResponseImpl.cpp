@@ -11,6 +11,7 @@ namespace Http {
     }
 
     ResponseImpl::~ResponseImpl() {
+        delete static_cast<char*>(mContent);
         mContent = 0;
     }
 
@@ -34,12 +35,12 @@ namespace Http {
         return "";
     }
 
-    std::unordered_map<std::string, std::string> ResponseImpl::GetHeaders() {
+    std::map<std::string, std::string> ResponseImpl::GetHeaders() {
         return mHeaders;
     }
 
-    std::string ResponseImpl::GetHttpVersion() {
-        return mHttpVersion;
+    ProtocolVersion ResponseImpl::GetProtocolVersion() {
+        return mProtocolVersion;
     }
 
     unsigned int ResponseImpl::GetStatusCode() {
@@ -59,7 +60,7 @@ namespace Http {
         return std::move(mRequest);
     }
     
-    void ResponseImpl::SetHeaders(std::unordered_map<std::string, std::string> headers) {
+    void ResponseImpl::SetHeaders(std::map<std::string, std::string> headers) {
         mHeaders = headers;
     }
 
@@ -68,8 +69,8 @@ namespace Http {
         mContentLength = contentLength;
     }
 
-    void ResponseImpl::SetHttpVersion(const std::string& httpVersion) {
-        mHttpVersion = httpVersion;
+    void ResponseImpl::SetProtocolVersion(ProtocolVersion protocolVersion) {
+        mProtocolVersion = protocolVersion;
     }
 
     void ResponseImpl::SetStatusCode(unsigned int statusCode){
