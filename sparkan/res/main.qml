@@ -24,7 +24,44 @@ ApplicationWindow
         y: aplicationWindowId.y
         title: "Sparkan"
 
+        ListModel {
+            id: developersListId
+            ListElement { name:"Veljko Jasikovac"; email:"veljko.jasikovac@gmail.com"; role:"Developer"; }
+            ListElement { name:"Nebojsa Karan"; email:"nebojsakaran1011@gmail.com"; role: "Developer"; }
+            ListElement { name:"Nenad Žikić"; email:"nenad.zikic@gmail.com"; role:"Developer"; }
+            ListElement { name:"Nemanja Hiršl"; email:"nemhirsl@gmail.com"; role:"Development Lead"; }
+        }
+
+        ListView {
+            id: listViewId
+            model: developersListId
+            width: 400; height: 100;
+            delegate: Row {
+                Text {width:150; text: name; }
+                Text {width:250; text:email; }
+                Text {text:role}
+
+            }
+            section {
+                property: "role"
+                criteria: ViewSection.FullString
+                labelPositioning: ViewSection.InlineLabels
+                delegate: Rectangle {
+                    width: listViewId.width
+                    height: 30
+                    color: "lightgrey"
+                    Text {
+                        text: section; font.pixelSize:  22
+                    }
+
+                }
+
+
+            }
+        }
+
         Column{
+            visible: false
             Text{
                 text: "Sparkan 1.0 \nhttps://github.com/nhirsl/sparkan"
             }
@@ -83,3 +120,4 @@ ApplicationWindow
 
 
 }
+

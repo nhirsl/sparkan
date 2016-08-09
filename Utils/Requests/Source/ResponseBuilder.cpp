@@ -1,9 +1,16 @@
 #include "ResponseBuilder.h"
 
 #include "StringUtils.h"
+<<<<<<< HEAD
 #include "Request.h"
 #include "ResponseImpl.h"
 
+=======
+#include "ResponseImpl.h"
+
+#include "Requests/Request.h"
+
+>>>>>>> nebojsakaran
 #include <string>
 #include <cmath>
 
@@ -23,7 +30,11 @@ namespace Http {
     ResponseUPtr ResponseBuilder::Build() {
         ResponseImplUPtr aResponseImpl(new ResponseImpl());
         aResponseImpl->SetRequest(std::move(mRequest));
+<<<<<<< HEAD
         aResponseImpl->SetHttpVersion(mHttpVersion);
+=======
+        aResponseImpl->SetProtocolVersion(mProtocolVersion);
+>>>>>>> nebojsakaran
         aResponseImpl->SetStatusCode(mStatusCode);
         aResponseImpl->SetStatusText(mStatusText);
         aResponseImpl->SetHeaders(mHeaders);
@@ -35,8 +46,13 @@ namespace Http {
         mHeaders[headerKey] = headerValue;
     }
 
+<<<<<<< HEAD
     void ResponseBuilder::SetHttpVersion(std::string httpVersion) {
         mHttpVersion = httpVersion;
+=======
+    void ResponseBuilder::SetProtocolVersion(ProtocolVersion protocolVersion) {
+        mProtocolVersion = protocolVersion;
+>>>>>>> nebojsakaran
     }
 
     void ResponseBuilder::SetStatusCode(unsigned int statusCode) {

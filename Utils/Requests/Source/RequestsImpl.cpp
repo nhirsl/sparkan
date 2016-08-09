@@ -1,5 +1,6 @@
 #include "RequestsImpl.h"
 
+<<<<<<< HEAD
 #include "GetRequest.h"
 #include "PostRequest.h"
 #include "DeleteRequest.h"
@@ -7,6 +8,14 @@
 
 #include "StringUtils.h"
 #include "ThreadPoolFactory.h"
+=======
+#include "IncommingTask.h"
+#include "StringUtils.h"
+
+#include "Requests/Request.h"
+
+#include "ThreadPool/ThreadPoolFactory.h"
+>>>>>>> nebojsakaran
 
 #include <algorithm>
 
@@ -20,6 +29,7 @@ namespace Http {
     }
     
     RequestsImpl::~RequestsImpl() {
+<<<<<<< HEAD
     }
     
     void RequestsImpl::Get(
@@ -93,6 +103,24 @@ namespace Http {
     }
     
     std::string RequestsImpl::AddQueryStringToUrl(const std::string& url, std::unordered_map<std::string, std::string> queryStringParams) {
+=======
+        mIncommingTasks->Close();
+    }
+    
+    void RequestsImpl::Submit(RequestUPtr request, ResponseHandlerType responseHandler) {
+        mIncommingTasks->Enqueue(
+            IncommingTaskPtr(new IncommingTask(std::move(request), std::move(responseHandler)))
+        );
+    }
+    
+    void RequestsImpl::Urgent(RequestUPtr request, ResponseHandlerType responseHandler) {
+        mIncommingTasks->Urgent(
+            IncommingTaskPtr(new IncommingTask(std::move(request), std::move(responseHandler)))
+        );
+    }
+    
+    std::string RequestsImpl::AddQueryStringToUrl(const std::string& url, std::map<std::string, std::string> queryStringParams) {
+>>>>>>> nebojsakaran
         if(queryStringParams.size() > 0) {
             std::vector<std::string> params;
             std::transform(queryStringParams.begin(), 

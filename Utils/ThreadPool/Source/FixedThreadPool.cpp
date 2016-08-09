@@ -1,6 +1,10 @@
 #include "FixedThreadPool.h"
 
+<<<<<<< HEAD
 #include "Task.h"
+=======
+#include "ThreadPool/Task.h"
+>>>>>>> nebojsakaran
 
 #include <algorithm>
 

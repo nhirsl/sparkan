@@ -1,8 +1,6 @@
 #include <cstdlib>
 #include <QApplication>
 #include <QCommandLineParser>
-#include <KAboutData>
-#include <KLocalizedString>
 #include <QMessageLogger>
 #include <iostream>
 #include "cachedauthorization.h"

@@ -1,6 +1,10 @@
 #pragma once
 
+<<<<<<< HEAD
 #include "BlockingQueue.h"
+=======
+#include "BlockingQueue/BlockingQueue.h"
+>>>>>>> nebojsakaran
 
 #include "NonblockingRecursiveLock.h"
 

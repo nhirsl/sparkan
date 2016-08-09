@@ -4,6 +4,7 @@
 #include "CurlDeliveredDataHandler.h"
 
 #include <string>
+<<<<<<< HEAD
 #include <unordered_map>
 
 namespace Http {
@@ -11,14 +12,37 @@ namespace Http {
     }
     
     RequestImpl::~RequestImpl() { 
+=======
+#include <cstring>
+#include <map>
+
+namespace Http {
+    RequestImpl::RequestImpl()
+        : mContent(0)
+        , mContentLength(0) {
+    }
+    
+    RequestImpl::~RequestImpl() {
+        delete[] static_cast<char*>(mContent);
+        mContent = 0;
+    }
+    
+    Method RequestImpl::GetMethod() {
+        return mMethod;
+>>>>>>> nebojsakaran
     }
     
     std::string RequestImpl::GetUrl() {
         return mUrl;
     }
     
+<<<<<<< HEAD
     std::string RequestImpl::GetHttpVersion() {
         return "HTTP/1.1";
+=======
+    ProtocolVersion RequestImpl::GetProtocolVersion() {
+        return mProtocolVersion;
+>>>>>>> nebojsakaran
     }
     
     std::string RequestImpl::GetHeaderValue(std::string headerKey) {
@@ -29,7 +53,11 @@ namespace Http {
         return "";
     }    
     
+<<<<<<< HEAD
     std::unordered_map<std::string, std::string> RequestImpl::GetHeaders() {
+=======
+    std::map<std::string, std::string> RequestImpl::GetHeaders() {
+>>>>>>> nebojsakaran
         return mHeaders;
     }
     
@@ -38,6 +66,7 @@ namespace Http {
         return iter != mHeaders.end();
     }    
     
+<<<<<<< HEAD
     void RequestImpl::SetUrl(const std::string& url) {
         mUrl = url;
     }
@@ -60,5 +89,36 @@ namespace Http {
     
     std::function<void(ResponseUPtr)> RequestImpl::GetResponseHandler() {
         return mResponseHandler;
+=======
+    void* RequestImpl::GetContent() {
+        return mContent;
+    }
+    
+    size_t RequestImpl::GetContentLength() {
+        return mContentLength;
+    }
+    
+    void RequestImpl::SetMethod(Method method) {
+        mMethod = method;
+    }
+    
+    void RequestImpl::SetUrl(const std::string& url) {
+        mUrl = url;
+    }
+    
+    void RequestImpl::SetProtocolVersion(ProtocolVersion protocolVersion) {
+        mProtocolVersion = protocolVersion;
+    }
+    
+    void RequestImpl::SetHeaders(std::map<std::string, std::string> headers) {
+        mHeaders.insert(headers.begin(), headers.end());
+    }
+
+    void RequestImpl::SetContent(void* content, size_t contentLength) {
+        mContent = new char[contentLength];
+        memcpy(mContent, content, contentLength);
+        
+        mContentLength = contentLength;
+>>>>>>> nebojsakaran
     }
 }

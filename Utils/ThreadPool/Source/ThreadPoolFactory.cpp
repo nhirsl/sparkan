@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 #include "ThreadPoolFactory.h"
 
 #include "FixedThreadPool.h"
 
 #include "BlockingQueueFactory.h"
 #include "BlockingQueue.h"
+=======
+#include "ThreadPool/ThreadPoolFactory.h"
+
+#include "FixedThreadPool.h"
+
+#include "BlockingQueue/BlockingQueueFactory.h"
+#include "BlockingQueue/BlockingQueue.h"
+>>>>>>> nebojsakaran
 
 using TaskBlockingQueueUPtr = std::unique_ptr<BlockingQueue<TaskPtr>>;
 
