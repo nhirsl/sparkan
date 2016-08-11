@@ -54,7 +54,6 @@ ApplicationWindow
             MenuButton {
                 width: iconsize
                 height: iconsize
-                visible: false
                 isource: "images/Calls.png"
             }
             AvatarButton {
@@ -118,6 +117,7 @@ ApplicationWindow
     }
 
     Rectangle {
+
         anchors.left: menuId.right
         anchors.right: parent.right
         anchors.top: parent.top
@@ -125,6 +125,7 @@ ApplicationWindow
         color: "lightblue"
         border.color: "blue"
         border.width: 2
+        visible: !myBrowser.visible
     }
     Window
     {
