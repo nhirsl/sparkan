@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.3
+import QtQuick.Controls.Styles 1.3
 
 ApplicationWindow
 {
@@ -11,9 +12,120 @@ ApplicationWindow
     title: qsTr("Hello Sparkan")
     x: (Screen.width - aplicationWindowId.width) / 2
     y: (Screen.height - aplicationWindowId.height) / 2
+    property real iconsize: 72
 
-    menuBar: SparkanMenu{}
+    Item {
+        id: menuId
+        width: iconsize
+        height: parent.height
+        visible: !myBrowser.visible
 
+        Column {
+
+            anchors.fill: parent
+            MenuButton {
+                width: iconsize
+                height: iconsize
+
+                isource: "images/Search.png"
+            }
+
+
+            MenuButton {
+                width: iconsize
+                height: iconsize
+
+                isource: "images/Recents.png"
+            }
+
+            MenuButton {
+                width: iconsize
+                height: iconsize
+
+                isource: "images/Teams.png"
+            }
+
+            MenuButton {
+                width: iconsize
+                height: iconsize
+
+                isource: "images/Mentions.png"
+            }
+            MenuButton {
+                width: iconsize
+                height: iconsize
+                visible: false
+                isource: "images/Calls.png"
+            }
+            AvatarButton {
+                width: iconsize
+                height: iconsize
+
+                isource: Me.avatar
+                onClick: {
+                    userProfileId.show()
+                }
+            }
+
+            MenuButton {
+                width: iconsize
+                height: iconsize
+
+                isource: "images/Settings.png"
+                onClick: {
+                    settingsMenuId.popup()
+                }
+
+                Menu {
+                    id: settingsMenuId
+                    style: MenuStyle {
+                        frame: Component {
+                            Rectangle {
+                                anchors.fill: parent
+                                color: "white"
+                            }
+                        }
+                    }
+
+                    MenuItem {
+                        text: "Settings"
+
+                    }
+                    MenuItem {
+                        text: "About"
+                        onTriggered: {
+                            aboutWindowId.show()
+                        }
+                    }
+                    MenuItem {
+                        text: "Send feedback"
+                    }
+                    MenuItem {
+                        text: "Sparkan Help"
+                    }
+                    MenuItem {
+                        text: "Sign Out"
+                    }
+                    MenuItem {
+                        text: "Exit"
+                        onTriggered: {
+                            Qt.quit()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        anchors.left: menuId.right
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        color: "lightblue"
+        border.color: "blue"
+        border.width: 2
+    }
     Window
     {
         id: aboutWindowId
@@ -96,20 +208,6 @@ ApplicationWindow
         }
     }
 
-    Column {
-        visible: !myBrowser.visible
-        anchors.centerIn: parent
-
-        Image {
-            width: 128
-            height: 128
-            id: avatarMeId
-            source: Me.avatar
-        }
-        Text{
-            text: Me.displayName
-        }
-    }
 
     AuthenticationWindow {
         id: authenticationWindowId
