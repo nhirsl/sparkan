@@ -3,5 +3,13 @@
         <file>main.qml</file>
         <file>AuthenticationWindow.qml</file>
         <file>SparkanMenu.qml</file>
+        <file>MenuButton.qml</file>
+        <file>AvatarButton.qml</file>
+        <file>images/Calls.png</file>
+        <file>images/Mentions.png</file>
+        <file>images/Recents.png</file>
+        <file>images/Search.png</file>
+        <file>images/Settings.png</file>
+        <file>images/Teams.png</file>
     </qresource>
 </RCC>
