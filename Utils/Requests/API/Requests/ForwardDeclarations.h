@@ -16,6 +16,8 @@ namespace Http {
     REQUESTS_DECLARE_SMART_PTRS(Request)
     REQUESTS_DECLARE_SMART_PTRS(RequestImpl)
 
+    REQUESTS_DECLARE_SMART_PTRS(RequestExecutionContext)
+    
     REQUESTS_DECLARE_SMART_PTRS(RequestBuilder)
     REQUESTS_DECLARE_SMART_PTRS(RequestBuilderImpl)
     
@@ -25,6 +27,9 @@ namespace Http {
     REQUESTS_DECLARE_SMART_PTRS(ResponseBuilder)
     
     REQUESTS_DECLARE_SMART_PTRS(IncommingTask)
+    
+    REQUESTS_DECLARE_SMART_PTRS(Handler)
+    REQUESTS_DECLARE_SMART_PTRS(HandlerImpl)
     
     using ResponseHandlerType = std::function<void(ResponseUPtr)>;
 }

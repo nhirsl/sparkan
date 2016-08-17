@@ -28,5 +28,7 @@ namespace Http {
         virtual void* GetContent() = 0;
         
         virtual size_t GetContentLength() = 0;
+        
+        virtual bool getFollowLocation() = 0;
     };
 }

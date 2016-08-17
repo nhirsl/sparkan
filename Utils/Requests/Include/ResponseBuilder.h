@@ -30,7 +30,7 @@ namespace Http {
 
         size_t AppendToContent(void* content, size_t contentLength);
         
-        void SetRequest(RequestUPtr aRequest);
+        void SetRequest(RequestPtr aRequest);
         
     private:
         void InitContentBuffer();
@@ -62,6 +62,6 @@ namespace Http {
 
         bool mHttpStatusHeaderIsParsed;
         
-        RequestUPtr mRequest;
+        RequestPtr mRequest;
     };
 }

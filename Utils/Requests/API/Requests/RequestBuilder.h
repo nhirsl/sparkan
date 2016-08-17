@@ -14,7 +14,7 @@ namespace Http {
         
         virtual ~RequestBuilder() = default;
         
-        static RequestBuilderUPtr Create();
+        static RequestBuilderUPtr CreateInstance();
 
         virtual void SetMethod(Method method) = 0;
         
@@ -26,8 +26,10 @@ namespace Http {
         
         virtual void SetContent(void* content, size_t contentLength) = 0;
         
+        virtual void setFollowLocation(bool followLocation) = 0;
+        
         virtual RequestBuilderUPtr Copy() = 0;
         
-        virtual RequestUPtr Build() = 0;
+        virtual RequestPtr Build() = 0;
     };
 }

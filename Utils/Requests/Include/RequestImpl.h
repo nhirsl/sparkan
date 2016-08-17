@@ -31,6 +31,8 @@ namespace Http {
         
         virtual size_t GetContentLength() override;
         
+        virtual bool getFollowLocation() override;
+        
         void SetMethod(Method method);
         
         void SetUrl(const std::string& url);
@@ -40,6 +42,8 @@ namespace Http {
         void SetHeaders(std::map<std::string, std::string> headers);
         
         void SetContent(void* content, size_t contentLength);
+        
+        void setFollowLocation(bool followLocation);
         
     private:
         Method mMethod;
@@ -52,5 +56,7 @@ namespace Http {
         
         void* mContent;
         size_t mContentLength;
+        
+        bool mFollowLocation;
     };
 }

@@ -10,7 +10,8 @@
 namespace Http {
     RequestImpl::RequestImpl()
         : mContent(0)
-        , mContentLength(0) {
+        , mContentLength(0)
+        , mFollowLocation(true) {
     }
     
     RequestImpl::~RequestImpl() {
@@ -55,6 +56,10 @@ namespace Http {
         return mContentLength;
     }
     
+    bool RequestImpl::getFollowLocation() {
+        return mFollowLocation;
+    }
+    
     void RequestImpl::SetMethod(Method method) {
         mMethod = method;
     }
@@ -76,5 +81,9 @@ namespace Http {
         memcpy(mContent, content, contentLength);
         
         mContentLength = contentLength;
+    }
+    
+    void RequestImpl::setFollowLocation(bool followLocation) {
+        mFollowLocation = followLocation;
     }
 }

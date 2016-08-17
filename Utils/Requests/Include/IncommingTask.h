@@ -10,7 +10,10 @@
 namespace Http {
     class IncommingTask : public ::Task {
     public:
-        IncommingTask(RequestUPtr requestImpl, ResponseHandlerType responseHandler);
+        IncommingTask(
+            RequestExecutionContextPtr requestExecutionContext, 
+            ResponseHandlerType responseHandler
+        );
         
         ~IncommingTask();
         
@@ -24,12 +27,10 @@ namespace Http {
         void SetHeaders();
         void SetContent();
         void PerformResponseHandler();
-        
-        ResponseBuilder* mResponseBuilder;
-        
-        RequestUPtr mRequest;
-        
+                
         ResponseHandlerType mResponseHandler;
+        
+        RequestExecutionContextPtr mRequestExecutionContext;
         
         struct curl_slist* mCurlHeaders;
         CURL* mCurl;

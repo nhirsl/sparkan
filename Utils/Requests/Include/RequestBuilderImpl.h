@@ -21,9 +21,11 @@ namespace Http {
         
         virtual void SetContent(void* content, size_t contentLength) override;
         
+        virtual void setFollowLocation(bool followLocation) override;
+        
         virtual RequestBuilderUPtr Copy() override;
         
-        virtual RequestUPtr Build() override;
+        virtual RequestPtr Build() override;
         
     private:
         void SetHeaders(
@@ -40,5 +42,7 @@ namespace Http {
         
         void* mContent;
         size_t mContentLength;
+        
+        bool mFollowLocation;
     };
 }

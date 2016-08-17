@@ -1,12 +1,14 @@
 #include "RequestsImpl.h"
 
 #include "IncommingTask.h"
-#include "StringUtils.h"
+#include "RequestExecutionContext.h"
 
 #include "Requests/Request.h"
+#include "HandlerImpl.h"
 
 #include "ThreadPool/ThreadPoolFactory.h"
 
+#include "StringUtils.h"
 #include <algorithm>
 
 namespace Http {
@@ -22,16 +24,20 @@ namespace Http {
         mIncommingTasks->Close();
     }
     
-    void RequestsImpl::Submit(RequestUPtr request, ResponseHandlerType responseHandler) {
+    HandlerUPtr RequestsImpl::Submit(RequestPtr request, ResponseHandlerType responseHandler) {
+        RequestExecutionContextPtr requestExecutionContext(new RequestExecutionContext(request));
         mIncommingTasks->Enqueue(
-            IncommingTaskPtr(new IncommingTask(std::move(request), std::move(responseHandler)))
+            IncommingTaskPtr(new IncommingTask(requestExecutionContext, std::move(responseHandler)))
         );
+        return HandlerImplUPtr(new HandlerImpl(requestExecutionContext));
     }
     
-    void RequestsImpl::Urgent(RequestUPtr request, ResponseHandlerType responseHandler) {
+    HandlerUPtr RequestsImpl::Urgent(RequestPtr request, ResponseHandlerType responseHandler) {
+        RequestExecutionContextPtr requestExecutionContext(new RequestExecutionContext(request));
         mIncommingTasks->Urgent(
-            IncommingTaskPtr(new IncommingTask(std::move(request), std::move(responseHandler)))
+            IncommingTaskPtr(new IncommingTask(requestExecutionContext, std::move(responseHandler)))
         );
+        return HandlerImplUPtr(new HandlerImpl(requestExecutionContext));        
     }
     
     std::string RequestsImpl::AddQueryStringToUrl(const std::string& url, std::map<std::string, std::string> queryStringParams) {

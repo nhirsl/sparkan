@@ -56,8 +56,8 @@ namespace Http {
         return iter != mHeaders.end();
     }
 
-    RequestUPtr ResponseImpl::GetRequest() {
-        return std::move(mRequest);
+    RequestPtr ResponseImpl::GetRequest() {
+        return mRequest;
     }
     
     void ResponseImpl::SetHeaders(std::map<std::string, std::string> headers) {
@@ -81,7 +81,7 @@ namespace Http {
         mStatusText = statusText;
     }
     
-    void ResponseImpl::SetRequest(RequestUPtr aRequest) {
-        mRequest = std::move(aRequest);
+    void ResponseImpl::SetRequest(RequestPtr aRequest) {
+        mRequest = aRequest;
     }
 }

@@ -12,8 +12,8 @@ namespace Http {
 
         static RequestsUPtr CreateInstance();
         
-        virtual void Submit(RequestUPtr request, ResponseHandlerType responseHandler) = 0;
+        virtual HandlerUPtr Submit(RequestPtr request, ResponseHandlerType responseHandler) = 0;
         
-        virtual void Urgent(RequestUPtr request, ResponseHandlerType responseHandler) = 0;
+        virtual HandlerUPtr Urgent(RequestPtr request, ResponseHandlerType responseHandler) = 0;
     };
 }

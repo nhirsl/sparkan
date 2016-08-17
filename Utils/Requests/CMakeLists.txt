@@ -36,7 +36,9 @@ set(CPP_FILES
     Source/ResponseBuilder.cpp
     Source/ResponseImpl.cpp
     Source/IncommingTask.cpp
-    Source/Requests.cpp)
+    Source/Requests.cpp
+    Source/HandlerImpl.cpp
+    Source/RequestExecutionContext.cpp)
 
 add_library(${PROJECT_NAME} SHARED ${CPP_FILES})
 

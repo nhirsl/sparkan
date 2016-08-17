@@ -27,7 +27,7 @@ namespace Http {
         
         virtual std::string GetStatusText() override;
         
-        virtual RequestUPtr GetRequest() override;
+        virtual RequestPtr GetRequest() override;
         
         void SetProtocolVersion(ProtocolVersion protocolVersion);
         
@@ -39,10 +39,10 @@ namespace Http {
         
         void SetContent(void* content, size_t contentLength);
         
-        void SetRequest(RequestUPtr aRequest);
+        void SetRequest(RequestPtr aRequest);
         
     private:
-        RequestUPtr mRequest;
+        RequestPtr mRequest;
         
         ProtocolVersion mProtocolVersion;
         unsigned int mStatusCode;

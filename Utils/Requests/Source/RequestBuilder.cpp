@@ -3,7 +3,7 @@
 #include "RequestBuilderImpl.h"
 
 namespace Http {
-    RequestBuilderUPtr RequestBuilder::Create() {
+    RequestBuilderUPtr RequestBuilder::CreateInstance() {
         return RequestBuilderUPtr(new RequestBuilderImpl());
     }
 }

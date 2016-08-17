@@ -23,7 +23,7 @@ namespace Http {
 
     ResponseUPtr ResponseBuilder::Build() {
         ResponseImplUPtr aResponseImpl(new ResponseImpl());
-        aResponseImpl->SetRequest(std::move(mRequest));
+        aResponseImpl->SetRequest(mRequest);
         aResponseImpl->SetProtocolVersion(mProtocolVersion);
         aResponseImpl->SetStatusCode(mStatusCode);
         aResponseImpl->SetStatusText(mStatusText);
@@ -56,8 +56,8 @@ namespace Http {
         mHttpStatusHeaderIsParsed = httpStatusHeaderParsed;
     }
 
-    void ResponseBuilder::SetRequest(RequestUPtr aRequest) {
-        mRequest = std::move(aRequest);
+    void ResponseBuilder::SetRequest(RequestPtr aRequest) {
+        mRequest = aRequest;
     }
 
     size_t ResponseBuilder::AppendToContent(void* content, size_t contentLength) {

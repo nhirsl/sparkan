@@ -32,6 +32,6 @@ namespace Http {
         
         virtual std::string GetStatusText() = 0;
         
-        virtual RequestUPtr GetRequest() = 0;
+        virtual RequestPtr GetRequest() = 0;
     };
 }

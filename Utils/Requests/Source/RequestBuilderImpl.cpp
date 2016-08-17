@@ -9,7 +9,8 @@ namespace Http {
         : mMethod(Method::GET)
         , mProtocolVersion(ProtocolVersion::HTTP_1_1)
         , mContent(0)
-        , mContentLength(0) {
+        , mContentLength(0)
+        , mFollowLocation(true) {
     }
     
     RequestBuilderImpl::~RequestBuilderImpl() {
@@ -46,22 +47,28 @@ namespace Http {
         requestBuilderImpl->SetProtocolVersion(mProtocolVersion);
         requestBuilderImpl->SetHeaders(mHeaders.begin(), mHeaders.end());
         requestBuilderImpl->SetContent(mContent, mContentLength);
+        requestBuilderImpl->setFollowLocation(mFollowLocation);
         return std::move(requestBuilderImpl);
     }
     
-    RequestUPtr RequestBuilderImpl::Build() {
-        RequestImplUPtr requestImpl(new RequestImpl());
+    RequestPtr RequestBuilderImpl::Build() {
+        RequestImplPtr requestImpl(new RequestImpl());
         requestImpl->SetMethod(mMethod);
         requestImpl->SetUrl(mUrl);
         requestImpl->SetProtocolVersion(mProtocolVersion);
         requestImpl->SetHeaders(mHeaders);
         requestImpl->SetContent(mContent, mContentLength);
-        return std::move(requestImpl);
+        requestImpl->setFollowLocation(mFollowLocation);
+        return requestImpl;
     }
     
     void RequestBuilderImpl::SetHeaders(
         std::map<std::string, std::string>::iterator begin, 
         std::map<std::string, std::string>::iterator end) {
         mHeaders.insert(begin, end);
-    }    
+    }
+    
+    void RequestBuilderImpl::setFollowLocation(bool followLocation) {
+        mFollowLocation = followLocation;
+    }
 }
