@@ -8,6 +8,7 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include "rooms.h"
 
 AuthListener::AuthListener(QObject *parent):TokenListener(parent)
 {
@@ -42,6 +43,9 @@ void AuthListener::onNewAccessToken(QString token)
 
     connect(nm, SIGNAL(finished(QNetworkReply*)), this, SLOT(gotMe(QNetworkReply*)));
     nm->get(*request);
+
+    m_rooms->setToken(token);
+    m_rooms->updateRooms();
 }
 
 

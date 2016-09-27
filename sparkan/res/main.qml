@@ -80,7 +80,7 @@ ApplicationWindow
                     style: MenuStyle {
                         frame: Component {
                             Rectangle {
-                                anchors.fill: parent
+                                //anchors.fill: parent
                                 color: "white"
                             }
                         }
@@ -123,9 +123,48 @@ ApplicationWindow
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         color: "lightblue"
-        border.color: "blue"
-        border.width: 2
+
         visible: !myBrowser.visible
+
+        Rectangle {
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            border.color: "blue"
+            border.width: 2
+            width: 300
+            color: "white"
+
+            ListView {
+                anchors.fill:  parent
+
+                model: myRoomsList
+                delegate: Rectangle {
+                    id: myRoomsItemId
+                    color: "white"
+                    height: 24
+                    width: parent.width
+                    Row {
+                        Text {
+                            width: 150;
+                            text: name;
+                        }
+                        Text {
+                            width:150;
+                            horizontalAlignment: Text.AlignRight;
+                            text: update_date;
+                        }
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: { myRoomsItemId.color = "grey"}
+                        onExited: { myRoomsItemId.color = "white" }
+                        onClicked: { myRoomsList.selectedRoom = id }
+                    }
+
+                }
+            }
+        }
     }
     Window
     {

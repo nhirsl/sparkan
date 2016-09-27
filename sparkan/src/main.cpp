@@ -18,7 +18,7 @@
 
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
-
+#include "rooms.h"
 
 
 
@@ -58,11 +58,14 @@ int main(int argc, char *argv[])
 
     WebBrowser browser;
     Person me;
+    Rooms* rooms = new Rooms ();
     AuthListener authlistener;
     authlistener.setMe(&me);
+    authlistener.setRooms(rooms);
 
     root_context->setContextProperty("myBrowser", &browser);
     root_context->setContextProperty("Me", &me);
+    root_context->setContextProperty("myRoomsList", rooms);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     CoreService* core = CoreService::getInstance();
@@ -70,6 +73,7 @@ int main(int argc, char *argv[])
     core->addOAuthListener(&authlistener);
     QString oauth = core->getAuthToken();
     if (!oauth.isEmpty()) authlistener.onNewAccessToken(oauth);
+
 
 return app.exec();
 }
